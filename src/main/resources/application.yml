@@ -1,0 +1,22 @@
+##서버 설정
+server:
+  port: ${PORT}
+
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+    username: sa
+    password:
+    driver-class-name: ${DRIVER_CLASS_NAME}
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        #show_sql: true
+        format_sql: true
+
+logging.level:
+  org.hibernate.SQL: debug
+# org.hibernate.type: trace
