@@ -2,13 +2,11 @@ package bside.weo.plant.kakaoLogin.controller;
 
 import bside.weo.plant.kakaoLogin.service.KakaoAPI;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -23,11 +21,18 @@ public class HomeController {
 
     @GetMapping(value = "")
     public String test(String testString) {
+
         return "hello world : " + testString;
     }
 
     @GetMapping(value = "/login")
-    public String login(@RequestParam("accessToken") String accessToken, HttpSession session) {
+    public HashMap<String, Object> login(@RequestParam("accessToken") String accessToken, HttpSession session) {
+        // 받아온 인가코드로 accesstoken 발급
+        /*
+        String accessToken = kakaoAPI.getKakaoAccessToken(code);
+        System.out.println("accessToken = " + accessToken);
+        */
+
         HashMap<String, Object> userInfo = kakaoAPI.getUserInfo(accessToken);
         System.out.println("login Controller : userInfo = " + userInfo);
 
@@ -36,7 +41,10 @@ public class HomeController {
             session.setAttribute("userId", userInfo.get("email"));
             session.setAttribute("accessToken", accessToken);
         }
-        return "index";
+        
+        // userId + kakao로 조회되는 DB의 PK값만 넘겨주기 
+
+        return userInfo;
     }
 
     @GetMapping(value = "/logout")
