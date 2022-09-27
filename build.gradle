@@ -63,3 +63,10 @@ compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
 }
 //querydsl 추가 끝
+
+
+processResources {
+	filesMatching('**/application.yml') {
+		expand(project.properties)
+	}
+}
