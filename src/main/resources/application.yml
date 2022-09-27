@@ -1,14 +1,15 @@
 ##Server Settings
 server:
-  port: ${PORT}
+  port: 8080
+#  port: ${PORT}
 
 spring:
-  datasource:
-    url: ${DATABASE_URL}
-    username: sa
-    password:
-    driver-class-name: ${DRIVER_CLASS_NAME}
-## Swagger3.0-ui Settings
+  #  datasource:
+  #    url: ${DATABASE_URL}
+  #    username: sa
+  #    password:
+  #    driver-class-name: ${DRIVER_CLASS_NAME}
+  ## Swagger3.0-ui Settings
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -23,6 +24,3 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
 # org.hibernate.type: trace
-
-
-
