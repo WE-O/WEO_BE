@@ -1,4 +1,4 @@
-##서버 설정
+##Server Settings
 server:
   port: ${PORT}
 
@@ -8,7 +8,10 @@ spring:
     username: sa
     password:
     driver-class-name: ${DRIVER_CLASS_NAME}
-
+## Swagger3.0-ui Settings
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   jpa:
     hibernate:
       ddl-auto: create
@@ -20,3 +23,6 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
 # org.hibernate.type: trace
+
+
+
