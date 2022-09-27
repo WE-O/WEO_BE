@@ -65,8 +65,8 @@ compileQuerydsl {
 //querydsl 추가 끝
 
 
-processResources {
-	filesMatching('**/application.yml') {
-		expand(project.properties)
-	}
-}
+//processResources {
+//	filesMatching('**/application.yml') {
+//		expand(project.properties)
+//	}
+//}
