@@ -11,7 +11,7 @@ public class testAPIController {
 
     @GetMapping("/api/v1/hello1")
     public String hello1() {
-        String test = "jenkins test";
+        String test = "jenkins webhook test";
         return "hello";
     }
 
