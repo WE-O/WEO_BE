@@ -21,7 +21,7 @@ public class SwaggerConfig {
 
     private final String PATH = "/api" + version + "/**";
 
-    private final String TITLE = "식식집사 API";
+    private final String TITLE = "식식물물 API";
 
     @Bean
     public Docket api(){
