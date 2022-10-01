@@ -1,6 +1,7 @@
-package bside.weo.plant.kakaoLogin.controller;
+package bside.weo.plant.login.controller;
 
-import bside.weo.plant.kakaoLogin.service.KakaoAPI;
+import bside.weo.plant.login.service.KakaoAPI;
+import bside.weo.plant.login.service.NaverAPI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +14,13 @@ import java.util.HashMap;
 
 @RestController
 @Slf4j
-@RequestMapping(value = "/api/member/kakao")
-public class HomeController {
+@RequestMapping(value = "/api/member/login")
+public class loginController {
 
     @Autowired
     private KakaoAPI kakaoAPI;
+    @Autowired
+    private NaverAPI naverAPI;
 
     @GetMapping(value = "")
     public String test(String testString) {
@@ -25,7 +28,7 @@ public class HomeController {
         return "hello world : " + testString;
     }
 
-    @GetMapping(value = "/login")
+    @GetMapping(value = "/kakao/login")
     public HashMap<String, Object> login(@RequestParam("accessToken") String accessToken, HttpSession session) {
         // 받아온 인가코드로 accesstoken 발급
         /*
@@ -42,12 +45,12 @@ public class HomeController {
             session.setAttribute("accessToken", accessToken);
         }
         
-        // userId + kakao로 조회되는 DB의 PK값만 넘겨주기 
+        // userId + kakao로 조회되는 DB의 PK값만 넘겨주기
 
         return userInfo;
     }
 
-    @GetMapping(value = "/logout")
+    @GetMapping(value = "/kakao/logout")
     public String logout(HttpSession session) {
         kakaoAPI.logout((String)session.getAttribute("accessToken"));
         session.removeAttribute("accessToken");

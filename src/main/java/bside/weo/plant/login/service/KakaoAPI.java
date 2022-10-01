@@ -1,4 +1,4 @@
-package bside.weo.plant.kakaoLogin.service;
+package bside.weo.plant.login.service;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

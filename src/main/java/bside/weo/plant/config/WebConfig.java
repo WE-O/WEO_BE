@@ -1,4 +1,4 @@
-package bside.weo.plant.configuration;
+package bside.weo.plant.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
