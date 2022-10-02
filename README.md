@@ -1,7 +1,7 @@
 # WEO_Backend
 WE'O Backend 레파지토리
 
-# 기술스택 정리
+## 기술스택 정리
 ```
 1. Spring boot 2.7.3
 2. Java 11
