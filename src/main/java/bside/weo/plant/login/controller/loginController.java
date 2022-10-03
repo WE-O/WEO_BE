@@ -29,7 +29,7 @@ public class loginController {
     }
 
     @GetMapping(value = "/kakao/login")
-    public HashMap<String, Object> login(@RequestParam("accessToken") String accessToken, HttpSession session) {
+    public HashMap<String, Object> kakaoLogin(@RequestParam("accessToken") String accessToken, HttpSession session) {
         // 받아온 인가코드로 accesstoken 발급
         /*
         String accessToken = kakaoAPI.getKakaoAccessToken(code);
@@ -51,10 +51,18 @@ public class loginController {
     }
 
     @GetMapping(value = "/kakao/logout")
-    public String logout(HttpSession session) {
+    public String kakaoLogout(HttpSession session) {
         kakaoAPI.logout((String)session.getAttribute("accessToken"));
         session.removeAttribute("accessToken");
         session.removeAttribute("userId");
         return "index";
+    }
+
+    @GetMapping(value = "/naver/login")
+    public HashMap<String, Object> naverLogin(@RequestParam("accessToken") String accessToken, HttpSession session) {
+        HashMap<String, Object> userInfo = naverAPI.getUserInfo(accessToken);
+        System.out.println("naver login userInfo = " + userInfo);
+
+        return userInfo;
     }
 }
