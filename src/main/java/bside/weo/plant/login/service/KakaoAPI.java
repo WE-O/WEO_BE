@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
+// 미사용 service. 추후 삭제 예정
 @Service
 public class KakaoAPI {
 
