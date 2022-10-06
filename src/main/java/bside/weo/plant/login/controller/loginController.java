@@ -32,7 +32,7 @@ public class loginController {
 
     // 소셜 유저 정보 조회
     @GetMapping(value = "/profile")
-    public HashMap<String, Object> kakaoLogin(@RequestParam("accessToken") String accessToken, @RequestParam("socialType") String socialType, HttpSession session) {
+    public HashMap<String, Object> getProfile(@RequestParam("accessToken") String accessToken, @RequestParam("socialType") String socialType, HttpSession session) {
 
         HashMap<String, Object> userInfo = null;
 
@@ -48,6 +48,9 @@ public class loginController {
             String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
             String profileImg = properties.getAsJsonObject().get("profile_image").getAsString();
 
+            System.out.println("kakao response = " + response);
+            // 가입 이력이 없으면? -> 회원가입 처리
+
             userInfo = new HashMap<>();
             userInfo.put("socialType", socialType);
             userInfo.put("email", email);
@@ -62,6 +65,8 @@ public class loginController {
             JsonObject res = element.getAsJsonObject().get("response").getAsJsonObject();
             String email = res.getAsJsonObject().get("email").getAsString();
             String profileImg = res.getAsJsonObject().get("profile_image").getAsString();
+
+            System.out.println("naver response = " + response);
 
             userInfo = new HashMap<>();
             userInfo.put("socialType", socialType);
