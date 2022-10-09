@@ -32,11 +32,11 @@ public class loginController {
 
     // 소셜 유저 정보 조회
     @GetMapping(value = "/profile")
-    public HashMap<String, Object> getProfile(@RequestParam("accessToken") String accessToken, @RequestParam("socialType") String socialType, HttpSession session) {
+    public HashMap<String, Object> getProfile(@RequestParam("accessToken") String accessToken, @RequestParam("snsType") String snsType, HttpSession session) {
 
         HashMap<String, Object> userInfo = null;
 
-        if("kakao".equals(socialType)) {
+        if("kakao".equals(snsType)) {
 
             // 카카오 프로필 가져오기
             String response = loginAPI.requestKakaoProfile(loginAPI.generateProfileRequest(accessToken)).getBody();
@@ -45,36 +45,50 @@ public class loginController {
             JsonElement element = JsonParser.parseString(response);
             JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
             JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+            String snsId = element.getAsJsonObject().get("id").getAsString();
             String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
             String profileImg = properties.getAsJsonObject().get("profile_image").getAsString();
 
             System.out.println("kakao response = " + response);
-            // 가입 이력이 없으면? -> 회원가입 처리
 
             userInfo = new HashMap<>();
-            userInfo.put("socialType", socialType);
+            userInfo.put("snsId", snsId);
+            userInfo.put("snsType", snsType);
             userInfo.put("email", email);
             userInfo.put("profileImg", profileImg);
 
-        } else if("naver".equals(socialType)) {
+            System.out.println("kakao userInfo = " + userInfo);
+
+        } else if("naver".equals(snsType)) {
             // 네이버 프로필 가져오기
             String response = loginAPI.requestNaverProfile(loginAPI.generateProfileRequest(accessToken)).getBody();
 
             // JSON 파싱
             JsonElement element = JsonParser.parseString(response);
             JsonObject res = element.getAsJsonObject().get("response").getAsJsonObject();
+            String snsId = res.getAsJsonObject().get("id").getAsString();
             String email = res.getAsJsonObject().get("email").getAsString();
             String profileImg = res.getAsJsonObject().get("profile_image").getAsString();
 
             System.out.println("naver response = " + response);
 
             userInfo = new HashMap<>();
-            userInfo.put("socialType", socialType);
+            userInfo.put("snsId", snsId);
+            userInfo.put("snsType", snsType);
             userInfo.put("email", email);
             userInfo.put("profileImg", profileImg);
+
+            System.out.println("naver userInfo = " + userInfo);
         }
 
-        // userId + kakao로 조회되는 DB의 PK값만 넘겨주기
+        // 가입 이력이 없으면? -> 회원가입 처리
+
+        // 임시 닉네임 생성
+        String nickname = loginAPI.getUsername();
+
+        // 회원가입
+        // USER_ID, SNS_ID, NICKNAME, EMAIL, PROFILE_IMG, SNS_TYPE, JOIN_DATE
+        userInfo.put("nickname", nickname);
 
         return userInfo;
     }

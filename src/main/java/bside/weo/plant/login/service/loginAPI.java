@@ -46,4 +46,11 @@ public class loginAPI {
         return new HttpEntity<>(headers);
     }
 
+    // 임시 닉네임 생성
+    public String getUsername() {
+        String result = "";
+
+        return result;
+    }
+
 }
