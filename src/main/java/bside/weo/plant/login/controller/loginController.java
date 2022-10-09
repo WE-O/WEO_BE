@@ -90,6 +90,8 @@ public class loginController {
         // USER_ID, SNS_ID, NICKNAME, EMAIL, PROFILE_IMG, SNS_TYPE, JOIN_DATE
         userInfo.put("nickname", nickname);
 
+        System.out.println("jenkins push test");
+
         return userInfo;
     }
 
