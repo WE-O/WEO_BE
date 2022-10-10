@@ -1,4 +1,4 @@
-package bside.weo.plant.map.service;
+package bside.weo.plant.service;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class kakaoMapAPI {
+public class MapService {
 
     public ResponseEntity<String> requestPlaceInfo(String restApiKey, String query, String x, String y) {
         HttpHeaders headers = new HttpHeaders();

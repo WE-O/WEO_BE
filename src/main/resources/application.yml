@@ -4,12 +4,11 @@ server:
 #  port: ${PORT}
 
 spring:
-  #  datasource:
-  #    url: ${DATABASE_URL}
-  #    username: sa
-  #    password:
-  #    driver-class-name: ${DRIVER_CLASS_NAME}
-  ## Swagger3.0-ui Settings
+  datasource:
+    url: jdbc:postgresql://pg-c6psj.vpc-pub-cdb-kr.ntruss.com:5432/postgres
+    username: admin
+    password: postgres123!
+    driver-class-name: org.postgresql.Driver
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
