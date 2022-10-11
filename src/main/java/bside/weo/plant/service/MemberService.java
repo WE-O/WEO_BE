@@ -77,6 +77,14 @@ public class MemberService {
                 , "틸란드시아", "아이비", "포인세티아", "베고니아", "칼라디움"
                 , "안스리움", "커피나무", "시서스", "레몬라임", "행운목"};
 
+
+        double firstRandom = Math.floor(Math.random() * (firstDepth.length - 1));
+        int firstNum = (int)firstRandom;
+
+        double secondRandom = Math.floor(Math.random() * (secondDepth.length - 1));
+        int secondNum = (int)secondRandom;
+
+        result = firstDepth[firstNum] + secondDepth[secondNum];
         return result;
     }
 

@@ -116,6 +116,7 @@ public class MemberController {
     public void joinMember(Member snsId) {
         // 임시 닉네임 생성
         String nickname = memberService.getNickname();
+        System.out.println("controller nickname = " + nickname);
 
         // 회원가입
         // MEMBER_ID, SNS_ID, NICKNAME, EMAIL, PROFILE_IMG, SNS_TYPE, JOIN_DATE
