@@ -1,4 +1,4 @@
-package bside.weo.plant.application.controller.in;
+package bside.weo.plant.application.adapter.in.controller.test;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;

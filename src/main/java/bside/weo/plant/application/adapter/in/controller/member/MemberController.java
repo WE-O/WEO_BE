@@ -1,13 +1,12 @@
-package bside.weo.plant.controller;
+package bside.weo.plant.application.adapter.in.controller.member;
 
-import bside.weo.plant.domain.Member;
-import bside.weo.plant.service.MemberService;
+import bside.weo.plant.application.domain.member.Member;
+import bside.weo.plant.application.biz.member.service.MemberService;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;

@@ -1,7 +1,7 @@
-package bside.weo.plant.service;
+package bside.weo.plant.application.biz.member.service;
 
-import bside.weo.plant.domain.Member;
-import bside.weo.plant.repository.MemberRepository;
+import bside.weo.plant.application.domain.member.Member;
+import bside.weo.plant.application.adapter.out.persistence.member.MemberPersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final MemberRepository memberRepository;
+    private final MemberPersistenceAdapter memberRepository;
 
     /**
      * 네이버 프로필 조회

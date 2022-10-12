@@ -1,4 +1,4 @@
-package bside.weo.plant.service;
+package bside.weo.plant.application.biz.map.service;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

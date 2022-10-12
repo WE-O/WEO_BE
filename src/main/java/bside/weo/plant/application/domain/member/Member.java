@@ -1,4 +1,4 @@
-package bside.weo.plant.domain;
+package bside.weo.plant.application.domain.member;
 
 import lombok.Getter;
 import lombok.Setter;

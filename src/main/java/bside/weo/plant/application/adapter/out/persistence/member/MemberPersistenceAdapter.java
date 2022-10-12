@@ -1,9 +1,7 @@
-package bside.weo.plant.repository;
+package bside.weo.plant.application.adapter.out.persistence.member;
 
-import bside.weo.plant.domain.Member;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import bside.weo.plant.application.domain.member.Member;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -11,7 +9,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberRepository {
+public class MemberPersistenceAdapter {
 
     private final EntityManager em;
     //private final JPAQueryFactory queryFactory;
