@@ -1,15 +1,13 @@
 package com.plant.web.api.member.adapter.in.controller;
 
-import com.plant.web.api.member.domain.Member;
+import com.plant.web.api.member.application.port.in.MemberInPort;
 import com.plant.web.api.member.application.service.MemberService;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.plant.web.api.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 import static com.plant.web.config.utill.RandomNickname.Nickname;
@@ -17,18 +15,12 @@ import static com.plant.web.config.utill.RandomNickname.Nickname;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-//@RequestMapping(value = "/auth/api/v1/member")
 @RequestMapping(value = "/api/v1/member")
 public class MemberController {
 
-    //@Autowired
     private final MemberService memberService;
 
-    @GetMapping(value = "")
-    public String test(String testString) {
-
-        return "hello world : " + testString;
-    }
+    private final MemberInPort memberInPort;
 
     /**
      * 소셜 유저 정보 조회
@@ -37,69 +29,9 @@ public class MemberController {
      * @return
      */
     @GetMapping(value = "/profile")
-    public Member getProfile(@RequestParam("accessToken") String accessToken, @RequestParam("snsType") String snsType) {
-        log.info("LoginController /api/v1/member/profile");
-        HashMap<String, Object> memberInfo = null;
-        Member member = null;
-
-        if("kakao".equals(snsType)) {
-
-            // 카카오 프로필 가져오기
-            String response = memberService.requestKakaoProfile(memberService.generateProfileRequest(accessToken)).getBody();
-
-            // JSON 파싱
-            JsonElement element = JsonParser.parseString(response);
-            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-            JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-            String snsId = element.getAsJsonObject().get("id").getAsString();
-            String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
-            String profileImg = properties.getAsJsonObject().get("profile_image").getAsString();
-
-            System.out.println("kakao response = " + response);
-
-            /*memberInfo = new HashMap<>();
-            memberInfo.put("snsId", snsId);
-            memberInfo.put("snsType", snsType);
-            memberInfo.put("email", email);
-            memberInfo.put("profileImg", profileImg);*/
-
-            member = new Member();
-            member.setSnsId(snsId);
-            member.setSnsType(snsType);
-            member.setEmail(email);
-            member.setProfileImg(profileImg);
-
-            System.out.println("kakao memberInfo = " + memberInfo);
-
-        } else if("naver".equals(snsType)) {
-            // 네이버 프로필 가져오기
-            String response = memberService.requestNaverProfile(memberService.generateProfileRequest(accessToken)).getBody();
-
-            // JSON 파싱
-            JsonElement element = JsonParser.parseString(response);
-            JsonObject res = element.getAsJsonObject().get("response").getAsJsonObject();
-            String snsId = res.getAsJsonObject().get("id").getAsString();
-            String email = res.getAsJsonObject().get("email").getAsString();
-            String profileImg = res.getAsJsonObject().get("profile_image").getAsString();
-
-            System.out.println("naver response = " + response);
-
-            /*memberInfo = new HashMap<>();
-            memberInfo.put("snsId", snsId);
-            memberInfo.put("snsType", snsType);
-            memberInfo.put("email", email);
-            memberInfo.put("profileImg", profileImg);*/
-
-            member = new Member();
-            member.setSnsId(snsId);
-            member.setSnsType(snsType);
-            member.setEmail(email);
-            member.setProfileImg(profileImg);
-
-            System.out.println("naver memberInfo = " + memberInfo);
-        }
-
-        return member;
+    public ResponseEntity<?> getProfile(@RequestParam("accessToken") String accessToken, @RequestParam("snsType") String snsType) {
+        ResponseEntity responseEntity = memberInPort.getProfile(accessToken, snsType);
+        return ResponseEntity.ok("ok");
     }
 
     /**

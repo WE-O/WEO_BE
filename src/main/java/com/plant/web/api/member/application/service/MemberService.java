@@ -1,65 +1,24 @@
 package com.plant.web.api.member.application.service;
 
-import com.plant.web.api.member.adapter.out.persistence.MemberPersistenceAdapter;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.plant.web.api.member.application.port.in.MemberInPort;
+import com.plant.web.api.member.application.port.out.MemberPersistenceOutPort;
 import com.plant.web.api.member.domain.Member;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberService implements MemberInPort {
 
-    private final MemberPersistenceAdapter memberRepository;
-
-    /**
-     * 네이버 프로필 조회
-     * @param request
-     * @return
-     */
-    public ResponseEntity<String> requestNaverProfile(HttpEntity request) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        return restTemplate.exchange("https://openapi.naver.com/v1/nid/me",
-                HttpMethod.POST,
-                request,
-                String.class);
-    }
-
-    /**
-     * 카카오 프로필 조회
-     * @param request
-     * @return
-     */
-    public ResponseEntity<String> requestKakaoProfile(HttpEntity request) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        return restTemplate.exchange("https://kapi.kakao.com/v2/user/me",
-                HttpMethod.POST,
-                request,
-                String.class);
-    }
-
-    /**
-     * 소셜 로그인 api 준비
-     * @param accessToken
-     * @return
-     */
-    public HttpEntity<MultiValueMap<String, String>> generateProfileRequest(String accessToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + accessToken);
-        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-        return new HttpEntity<>(headers);
-    }
+    private final MemberPersistenceOutPort memberPersistenceOutPort;
 
     /**
      * 회원 가입
@@ -79,7 +38,7 @@ public class MemberService {
 
         return member.getId();
         */
-        memberRepository.save(member);
+        memberPersistenceOutPort.save(member);
 
         return member.getId();
     }
@@ -88,7 +47,7 @@ public class MemberService {
      * snsId로 이미 가입되어있는 회원인지 확인
      */
     public List<Member> validateDuplicateUser(String snsId) {
-        List<Member> findUsers = memberRepository.findBySnsId(snsId);
+        List<Member> findUsers = memberPersistenceOutPort.findBySnsId(snsId);
         /*
         if (!findUsers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
@@ -101,7 +60,7 @@ public class MemberService {
      * 기존 가입 회원 정보 확인
      */
     public Member findOne(Long userId) {
-        return memberRepository.findOne(userId);
+        return memberPersistenceOutPort.findOne(userId);
     }
 
     /**
@@ -112,5 +71,65 @@ public class MemberService {
     /**
      * 임시 닉네임 중복 확인
      */
+
+    /**
+     * 프로필 조회
+     */
+    @Override
+    public ResponseEntity getProfile(String accessToken, String snsType) {
+        HashMap<String, Object> memberInfo = null;
+        Member member = null;
+
+        if ("kakao".equals(snsType)) {
+
+            // 카카오 프로필 가져오기
+            String response = memberPersistenceOutPort.requestKakaoProfile(memberPersistenceOutPort.generateProfileRequest(accessToken)).getBody();
+
+            // JSON 파싱
+            JsonElement element = JsonParser.parseString(response);
+            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+            JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+            String snsId = element.getAsJsonObject().get("id").getAsString();
+            String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
+            String profileImg = properties.getAsJsonObject().get("profile_image").getAsString();
+
+            member = new Member();
+            member.setSnsId(snsId);
+            member.setSnsType(snsType);
+            member.setEmail(email);
+            member.setProfileImg(profileImg);
+
+            System.out.println("kakao memberInfo = " + memberInfo);
+
+        } else if ("naver".equals(snsType)) {
+            // 네이버 프로필 가져오기
+            String response = memberPersistenceOutPort.requestNaverProfile(memberPersistenceOutPort.generateProfileRequest(accessToken)).getBody();
+
+            // JSON 파싱
+            JsonElement element = JsonParser.parseString(response);
+            JsonObject res = element.getAsJsonObject().get("response").getAsJsonObject();
+            String snsId = res.getAsJsonObject().get("id").getAsString();
+            String email = res.getAsJsonObject().get("email").getAsString();
+            String profileImg = res.getAsJsonObject().get("profile_image").getAsString();
+
+            System.out.println("naver response = " + response);
+
+            /*memberInfo = new HashMap<>();
+            memberInfo.put("snsId", snsId);
+            memberInfo.put("snsType", snsType);
+            memberInfo.put("email", email);
+            memberInfo.put("profileImg", profileImg);*/
+
+            member = new Member();
+            member.setSnsId(snsId);
+            member.setSnsType(snsType);
+            member.setEmail(email);
+            member.setProfileImg(profileImg);
+
+            System.out.println("naver memberInfo = " + memberInfo);
+        }
+        return null;
+    }
+
 
 }
