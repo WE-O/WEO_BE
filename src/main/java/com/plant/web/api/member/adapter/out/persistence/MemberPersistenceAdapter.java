@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,6 +16,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository
+@Transactional
 @RequiredArgsConstructor
 public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
 

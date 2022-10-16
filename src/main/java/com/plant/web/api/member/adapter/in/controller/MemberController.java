@@ -1,7 +1,6 @@
 package com.plant.web.api.member.adapter.in.controller;
 
 import com.plant.web.api.member.application.port.in.MemberInPort;
-import com.plant.web.api.member.application.service.MemberService;
 import com.plant.web.api.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +17,6 @@ import static com.plant.web.config.utill.RandomNickname.Nickname;
 @RequestMapping(value = "/api/v1/member")
 public class MemberController {
 
-    private final MemberService memberService;
-
     private final MemberInPort memberInPort;
 
     /**
@@ -31,7 +28,7 @@ public class MemberController {
     @GetMapping(value = "/profile")
     public ResponseEntity<?> getProfile(@RequestParam("accessToken") String accessToken, @RequestParam("snsType") String snsType) {
         ResponseEntity responseEntity = memberInPort.getProfile(accessToken, snsType);
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.ok(responseEntity.getBody());
     }
 
     /**
@@ -39,7 +36,7 @@ public class MemberController {
      */
     @GetMapping(value = "/check-snsid")
     public int fineMember(String snsId) {
-        List<Member> members = memberService.validateDuplicateUser(snsId);
+        List<Member> members = memberInPort.validateDuplicateUser(snsId);
         return members.size();
     }
 
@@ -56,8 +53,6 @@ public class MemberController {
         // MEMBER_ID, SNS_ID, NICKNAME, EMAIL, PROFILE_IMG, SNS_TYPE, JOIN_DATE
         //memberInfo.put("nickname", nickname);
         //joinMember(member);
-
-
     }
 
 }

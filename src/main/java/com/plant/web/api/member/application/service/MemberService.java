@@ -128,7 +128,7 @@ public class MemberService implements MemberInPort {
 
             System.out.println("naver memberInfo = " + memberInfo);
         }
-        return null;
+        return  null;
     }
 
 
