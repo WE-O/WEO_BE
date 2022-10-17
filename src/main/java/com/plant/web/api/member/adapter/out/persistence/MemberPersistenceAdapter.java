@@ -1,8 +1,12 @@
 package com.plant.web.api.member.adapter.out.persistence;
 
+import com.google.gson.JsonObject;
 import com.plant.web.api.member.application.port.out.MemberPersistenceOutPort;
 import com.plant.web.api.member.domain.Member;
+import com.plant.web.api.member.domain.QMember;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Slf4j
 @Repository
 @Transactional
 @RequiredArgsConstructor
@@ -29,21 +34,6 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
         this.queryFactory = new JPAQueryFactory(em);
     }
     */
-
-    public void save(Member member) {
-        em.persist(member);
-    }
-
-    public Member findOne(Long id) {
-        return em.find(Member.class, id);
-    }
-
-    //querydsl로 변경 필요!
-    public List<Member> findBySnsId(String snsId) {
-        return em.createQuery("select u from Member u where u.snsId = :snsId", Member.class)
-                .setParameter("snsId", snsId)
-                .getResultList();
-    }
 
     @Override
     /**
@@ -60,6 +50,7 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
 
     /**
      * 카카오 프로필 조회
+     *
      * @param request
      * @return
      */
@@ -86,5 +77,50 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
                 HttpMethod.POST,
                 request,
                 String.class);
+    }
+
+    /**
+     * 회원가입
+     * @param member
+     */
+    public void save(Member member) {
+        log.info("회원가입");
+        em.persist(member);
+    }
+
+    /**
+     * snsId로 회원 조회
+     * @param snsId
+     * @return
+     */
+    //querydsl로 변경 필요!
+    public Member findBySnsId(String snsId) {
+        log.info("snsId로 회원 조회");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QMember m = new QMember("m");
+
+        /*
+        return em.createQuery("select u from Member u where u.snsId = :snsId", Member.class)
+                .setParameter("snsId", snsId)
+                .getSingleResult();
+
+         */
+
+        return queryFactory
+                .select(m)
+                .from(m)
+                .where(m.snsId.eq(snsId))
+                .fetchOne();
+    }
+
+    /**
+     *
+     * @param nickname
+     * @return
+     */
+    public List<Member> findByNickname(String nickname) {
+        return em.createQuery("select u from Member u where u.nickname = :nickname", Member.class)
+                .setParameter("nickname", nickname)
+                .getResultList();
     }
 }

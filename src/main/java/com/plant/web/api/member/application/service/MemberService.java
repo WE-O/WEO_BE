@@ -6,15 +6,20 @@ import com.google.gson.JsonParser;
 import com.plant.web.api.member.application.port.in.MemberInPort;
 import com.plant.web.api.member.application.port.out.MemberPersistenceOutPort;
 import com.plant.web.api.member.domain.Member;
+import com.plant.web.config.utill.RandomNickname;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.asm.Advice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class MemberService implements MemberInPort {
 
@@ -24,111 +29,86 @@ public class MemberService implements MemberInPort {
      * 회원 가입
      */
     @Transactional
-    public Long join(Member member) {
-        /*
-        List<Member> findUsers = validateDuplicateUser(member);    //중복 회원 검증
+    public String join(Member member) {
 
-        if(findUsers.isEmpty()) {
+        Member findUsers = findBySnsId(member.getSnsId());    //중복 회원 검증
+
+        if(findUsers == null) {
+            log.info("최초 회원 가입");
             //회원가입 진행
-            memberRepository.save(member);
+            //USER_ID, SNS_ID, NICKNAME, EMAIL, PROFILE_IMG, SNS_TYPE, JOIN_DATE
+            //snsId, snsType, email, profileImg
+
+            String nickname = "";
+
+            //닉네임 중복 체크
+            do {
+                //임시닉네임 생성
+                log.info("임시 닉네임 생성");
+                nickname = RandomNickname.Nickname();
+            } while (nicknameDupCheck(nickname) > 0);
+
+            member.setNickname(nickname);
+            System.out.println("nickname = " + nickname);
+
+            //현재 시간 세팅
+            member.setJoinDate(LocalDateTime.now());
+
+            //탈퇴여부 N 세팅
+            member.setDelYn('N');
+
+            //회원가입
+            memberPersistenceOutPort.save(member);
         } else {
-            //기존 User정보 조회 -> 필요한지 재확인
-            findOne(member.getId());
+            log.info("기존 회원 정보 조회");
+            // 가입되어있는 회원 정보 조회
+            String memberInfo = findUsers.getSnsId();
+            member.setSnsId(memberInfo);
         }
 
-        return member.getId();
-        */
-        memberPersistenceOutPort.save(member);
-
-        return member.getId();
-    }
-
-    /**
-     * snsId로 이미 가입되어있는 회원인지 확인
-     */
-    public List<Member> validateDuplicateUser(String snsId) {
-        List<Member> findUsers = memberPersistenceOutPort.findBySnsId(snsId);
-        /*
-        if (!findUsers.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
-        }
-        */
-        return findUsers;
+        return member.getSnsId();
     }
 
     /**
      * 기존 가입 회원 정보 확인
      */
-    public Member findOne(Long userId) {
-        return memberPersistenceOutPort.findOne(userId);
+    private Member findBySnsId(String snsId) {
+        log.info("기존 가입 회원 정보 확인");
+        return memberPersistenceOutPort.findBySnsId(snsId);
     }
 
     /**
-     * 임시 닉네임 발급
+     * 닉네임 중복 확인
      */
-
-
-    /**
-     * 임시 닉네임 중복 확인
-     */
+    private int nicknameDupCheck(String nickname) {
+        return memberPersistenceOutPort.findByNickname(nickname).size();
+    }
 
     /**
      * 프로필 조회
      */
     @Override
     public ResponseEntity getProfile(String accessToken, String snsType) {
+
         HashMap<String, Object> memberInfo = null;
         Member member = null;
+
+        ResponseEntity<?> resultMap = null;
 
         if ("kakao".equals(snsType)) {
 
             // 카카오 프로필 가져오기
-            String response = memberPersistenceOutPort.requestKakaoProfile(memberPersistenceOutPort.generateProfileRequest(accessToken)).getBody();
+            resultMap = memberPersistenceOutPort.requestKakaoProfile(memberPersistenceOutPort.generateProfileRequest(accessToken));
 
-            // JSON 파싱
-            JsonElement element = JsonParser.parseString(response);
-            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-            JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-            String snsId = element.getAsJsonObject().get("id").getAsString();
-            String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
-            String profileImg = properties.getAsJsonObject().get("profile_image").getAsString();
-
-            member = new Member();
-            member.setSnsId(snsId);
-            member.setSnsType(snsType);
-            member.setEmail(email);
-            member.setProfileImg(profileImg);
-
-            System.out.println("kakao memberInfo = " + memberInfo);
+            System.out.println("kakao memberInfo = " + resultMap);
 
         } else if ("naver".equals(snsType)) {
             // 네이버 프로필 가져오기
-            String response = memberPersistenceOutPort.requestNaverProfile(memberPersistenceOutPort.generateProfileRequest(accessToken)).getBody();
+            resultMap = memberPersistenceOutPort.requestNaverProfile(memberPersistenceOutPort.generateProfileRequest(accessToken));
 
-            // JSON 파싱
-            JsonElement element = JsonParser.parseString(response);
-            JsonObject res = element.getAsJsonObject().get("response").getAsJsonObject();
-            String snsId = res.getAsJsonObject().get("id").getAsString();
-            String email = res.getAsJsonObject().get("email").getAsString();
-            String profileImg = res.getAsJsonObject().get("profile_image").getAsString();
-
-            System.out.println("naver response = " + response);
-
-            /*memberInfo = new HashMap<>();
-            memberInfo.put("snsId", snsId);
-            memberInfo.put("snsType", snsType);
-            memberInfo.put("email", email);
-            memberInfo.put("profileImg", profileImg);*/
-
-            member = new Member();
-            member.setSnsId(snsId);
-            member.setSnsType(snsType);
-            member.setEmail(email);
-            member.setProfileImg(profileImg);
-
-            System.out.println("naver memberInfo = " + memberInfo);
+            System.out.println("naver memberInfo = " + resultMap);
         }
-        return  null;
+        return  resultMap;
     }
 
 

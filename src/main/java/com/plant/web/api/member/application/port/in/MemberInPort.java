@@ -8,5 +8,5 @@ import java.util.List;
 public interface MemberInPort {
     ResponseEntity getProfile(String accessToken, String snsType);
 
-    List<Member> validateDuplicateUser(String snsId);
+    String join(Member member);
 }

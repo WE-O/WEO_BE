@@ -1,5 +1,6 @@
 package com.plant.web.api.member.application.port.out;
 
+import com.google.gson.JsonObject;
 import com.plant.web.api.member.domain.Member;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +33,11 @@ public interface MemberPersistenceOutPort {
     /**
      * snsId 가입 회원 확인
      */
-    List<Member> findBySnsId(String snsId);
+    Member findBySnsId(String snsId);
+
     /**
-     * 가입 회원 확인
+     * 닉네임 중복 체크
      */
-    Member findOne(Long userId);
+    List<Member> findByNickname(String nickname);
+
 }
