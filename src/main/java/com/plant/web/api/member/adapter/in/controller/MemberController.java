@@ -34,24 +34,45 @@ public class MemberController {
     @GetMapping(value = "/profile")
     public ResponseEntity<Member> getProfile(@RequestParam("accessToken") String accessToken, @RequestParam("snsType") String snsType) {
         ResponseEntity responseEntity = memberInPort.getProfile(accessToken, snsType);
-
+        Member member = null;
         JsonElement element = JsonParser.parseString(responseEntity.getBody().toString());
-        JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-        JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-        String snsId = element.getAsJsonObject().get("id").getAsString();
-        String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
-        String profileImg = properties.getAsJsonObject().get("profile_image").getAsString();
+        if ("kakao".equals(snsType)) {
+            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+            JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+            String snsId = element.getAsJsonObject().get("id").getAsString();
+            String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
+            String profileImg = properties.getAsJsonObject().get("profile_image").getAsString();
 
-        Member member = new Member();
-        member.setSnsId(snsId);
-        member.setSnsType(snsType);
-        member.setEmail(email);
-        member.setProfileImg(profileImg);
+            member = new Member();
+            member.setSnsId(snsId);
+            member.setSnsType(snsType);
+            member.setEmail(email);
+            member.setProfileImg(profileImg);
+            System.out.println("member111 = " + member);
 
-        System.out.println("member111 = " + member);
-        // 회원가입 처리
-        member = memberInPort.join(member);
-        System.out.println("member222 = " + member);
+            // 회원가입 처리
+            member = memberInPort.join(member);
+            System.out.println("member222 = " + member);
+
+        } else if ("naver".equals(snsType)) {
+            JsonObject res = element.getAsJsonObject().get("response").getAsJsonObject();
+            String snsId = res.getAsJsonObject().get("id").getAsString();
+            String email = res.getAsJsonObject().get("email").getAsString();
+            String profileImg = res.getAsJsonObject().get("profile_image").getAsString();
+
+            member = new Member();
+            member.setSnsId(snsId);
+            member.setSnsType(snsType);
+            member.setEmail(email);
+            member.setProfileImg(profileImg);
+
+            System.out.println("member111 = " + member);
+
+            // 회원가입 처리
+            member = memberInPort.join(member);
+            System.out.println("member222 = " + member);
+
+        }
 
         //return ResponseEntity.ok(responseEntity.getBody());
         return new ResponseEntity<>(member, HttpStatus.OK);

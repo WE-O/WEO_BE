@@ -61,9 +61,17 @@ public class MemberService implements MemberInPort {
             memberPersistenceOutPort.save(member);
         } else {
             log.info("기존 회원 정보 조회");
-            // 가입되어있는 회원 정보 조회
-            String memberInfo = findUsers.getSnsId();
-            member.setSnsId(memberInfo);
+            Long id = findUsers.getId();
+            String nickname = findUsers.getNickname();
+            LocalDateTime joinDate = findUsers.getJoinDate();
+            LocalDateTime delDate = findUsers.getDelDate();
+            char delYn = findUsers.getDelYn();
+
+            member.setId(id);
+            member.setNickname(nickname);
+            member.setJoinDate(joinDate);
+            member.setDelDate(delDate);
+            member.setDelYn(delYn);
         }
 
         return member;
