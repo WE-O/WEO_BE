@@ -90,9 +90,6 @@ public class MemberService implements MemberInPort {
     @Override
     public ResponseEntity getProfile(String accessToken, String snsType) {
 
-        HashMap<String, Object> memberInfo = null;
-        Member member = null;
-
         ResponseEntity<?> resultMap = null;
 
         if ("kakao".equals(snsType)) {

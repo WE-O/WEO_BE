@@ -99,13 +99,6 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QMember m = new QMember("m");
 
-        /*
-        return em.createQuery("select u from Member u where u.snsId = :snsId", Member.class)
-                .setParameter("snsId", snsId)
-                .getSingleResult();
-
-         */
-
         return queryFactory
                 .select(m)
                 .from(m)
@@ -114,7 +107,7 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
     }
 
     /**
-     *
+     * 닉네임 중복 체크
      * @param nickname
      * @return
      */
