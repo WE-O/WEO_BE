@@ -49,7 +49,6 @@ public class MemberService implements MemberInPort {
             } while (nicknameDupCheck(nickname) > 0);
 
             member.setNickname(nickname);
-            System.out.println("nickname = " + nickname);
 
             //현재 시간 세팅
             member.setJoinDate(LocalDateTime.now());

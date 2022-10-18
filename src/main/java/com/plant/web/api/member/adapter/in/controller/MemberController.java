@@ -23,7 +23,6 @@ import static com.plant.web.config.utill.RandomNickname.Nickname;
 public class MemberController {
 
     private final MemberInPort memberInPort;
-    private final MemberPersistenceOutPort memberPersistenceOutPort;
 
     /**
      * 소셜 유저 정보 조회
@@ -34,8 +33,9 @@ public class MemberController {
     @GetMapping(value = "/profile")
     public ResponseEntity<Member> getProfile(@RequestParam("accessToken") String accessToken, @RequestParam("snsType") String snsType) {
         ResponseEntity responseEntity = memberInPort.getProfile(accessToken, snsType);
-        Member member = null;
         JsonElement element = JsonParser.parseString(responseEntity.getBody().toString());
+        Member member = null;
+
         if ("kakao".equals(snsType)) {
             JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
             JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
@@ -48,11 +48,9 @@ public class MemberController {
             member.setSnsType(snsType);
             member.setEmail(email);
             member.setProfileImg(profileImg);
-            System.out.println("member111 = " + member);
 
             // 회원가입 처리
             member = memberInPort.join(member);
-            System.out.println("member222 = " + member);
 
         } else if ("naver".equals(snsType)) {
             JsonObject res = element.getAsJsonObject().get("response").getAsJsonObject();
@@ -66,15 +64,9 @@ public class MemberController {
             member.setEmail(email);
             member.setProfileImg(profileImg);
 
-            System.out.println("member111 = " + member);
-
             // 회원가입 처리
             member = memberInPort.join(member);
-            System.out.println("member222 = " + member);
-
         }
-
-        //return ResponseEntity.ok(responseEntity.getBody());
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
 
