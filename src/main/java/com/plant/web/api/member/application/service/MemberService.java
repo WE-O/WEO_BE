@@ -29,7 +29,7 @@ public class MemberService implements MemberInPort {
      * 회원 가입
      */
     @Transactional
-    public String join(Member member) {
+    public Member join(Member member) {
 
         Member findUsers = findBySnsId(member.getSnsId());    //중복 회원 검증
 
@@ -66,7 +66,7 @@ public class MemberService implements MemberInPort {
             member.setSnsId(memberInfo);
         }
 
-        return member.getSnsId();
+        return member;
     }
 
     /**

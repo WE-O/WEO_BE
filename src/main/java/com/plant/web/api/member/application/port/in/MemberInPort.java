@@ -8,5 +8,5 @@ import java.util.List;
 public interface MemberInPort {
     ResponseEntity getProfile(String accessToken, String snsType);
 
-    String join(Member member);
+    Member join(Member member);
 }

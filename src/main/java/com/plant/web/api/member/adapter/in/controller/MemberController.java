@@ -8,6 +8,7 @@ import com.plant.web.api.member.application.port.out.MemberPersistenceOutPort;
 import com.plant.web.api.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class MemberController {
      * @return
      */
     @GetMapping(value = "/profile")
-    public ResponseEntity<?> getProfile(@RequestParam("accessToken") String accessToken, @RequestParam("snsType") String snsType) {
+    public ResponseEntity<Member> getProfile(@RequestParam("accessToken") String accessToken, @RequestParam("snsType") String snsType) {
         ResponseEntity responseEntity = memberInPort.getProfile(accessToken, snsType);
 
         JsonElement element = JsonParser.parseString(responseEntity.getBody().toString());
@@ -47,10 +48,13 @@ public class MemberController {
         member.setEmail(email);
         member.setProfileImg(profileImg);
 
+        System.out.println("member111 = " + member);
         // 회원가입 처리
-        memberInPort.join(member);
+        member = memberInPort.join(member);
+        System.out.println("member222 = " + member);
 
-        return ResponseEntity.ok(responseEntity.getBody());
+        //return ResponseEntity.ok(responseEntity.getBody());
+        return new ResponseEntity<>(member, HttpStatus.OK);
     }
 
 }
