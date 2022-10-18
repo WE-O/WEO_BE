@@ -129,18 +129,18 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
 
     /**
      * 회원 탈퇴
-     * @param id
+     * @param snsid
      * @return
      */
     @Override
-    public Long accountRemove(Long id, HttpSession httpSession) {
+    public Long accountRemove(String snsid) {
         log.info("snsId로 회원 조회");
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QMember m = new QMember("m");
 
         return queryFactory.update(m)
                 .set(m.delYn, 'Y')
-                .where(m.id.eq(id))
+                .where(m.snsId.eq(snsid))
                 .execute();
     }
 }

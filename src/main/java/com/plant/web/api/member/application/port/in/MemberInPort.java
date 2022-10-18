@@ -9,6 +9,8 @@ import java.util.List;
 public interface MemberInPort {
     Member join(String accessToken, String snsType);
 
-    Long accountRemove(Long id, HttpSession httpSession);
+    Long accountRemove(String snsid);
+
+    Member findBySnsId(String snsid);
 
 }

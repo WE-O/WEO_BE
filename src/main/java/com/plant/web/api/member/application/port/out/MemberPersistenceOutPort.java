@@ -41,5 +41,8 @@ public interface MemberPersistenceOutPort {
      */
     List<Member> findByNickname(String nickname);
 
-    Long accountRemove(Long id, HttpSession httpSession);
+    Long accountRemove(String snsid);
+
+
+
 }

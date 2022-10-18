@@ -39,13 +39,26 @@ public class MemberController {
 
     /**
      * 회원 탈퇴
-     * @param id
+     * @param snsid
      * @return
      */
-    @DeleteMapping("/member/{id}")
-    public ResponseEntity<?> accountRemove(@PathVariable(value = "id") Long id, HttpSession httpSession){
-        Long count = memberInPort.accountRemove(id, httpSession);
+    @DeleteMapping("/{snsid}")
+    public ResponseEntity<?> accountRemove(@PathVariable(value = "snsid") String snsid, HttpSession httpSession){
+        Long count = memberInPort.accountRemove(snsid);
         return ResponseEntity.ok(count);
     }
+
+    /**
+     * 프로필 조회
+     * @param snsid
+     * @return
+     */
+    @GetMapping("/{snsid}")
+    public ResponseEntity<?> getProfile(@PathVariable(value = "snsid") String snsid, HttpSession httpSession){
+        Member member = memberInPort.findBySnsId(snsid);
+        return ResponseEntity.ok(member);
+    }
+
+
 
 }
