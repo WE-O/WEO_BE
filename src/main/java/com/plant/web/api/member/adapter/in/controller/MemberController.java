@@ -12,12 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
-import static com.plant.web.config.utill.RandomNickname.Nickname;
-
-@RestController
+/**
+ * 로그인 컨트롤러
+* */
 @Slf4j
+@RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/member")
 public class MemberController {
@@ -30,44 +31,21 @@ public class MemberController {
      * @param snsType
      * @return
      */
-    @GetMapping(value = "/profile")
-    public ResponseEntity<Member> getProfile(@RequestParam("accessToken") String accessToken, @RequestParam("snsType") String snsType) {
-        ResponseEntity responseEntity = memberInPort.getProfile(accessToken, snsType);
-        JsonElement element = JsonParser.parseString(responseEntity.getBody().toString());
-        Member member = null;
+    @GetMapping(value = "/join")
+    public ResponseEntity<?> getJoin(@RequestParam("accessToken") String accessToken, @RequestParam("snsType") String snsType) {
+        Member responseEntity = memberInPort.join(accessToken, snsType);
+        return ResponseEntity.ok(responseEntity);
+    }
 
-        if ("kakao".equals(snsType)) {
-            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-            JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-            String snsId = element.getAsJsonObject().get("id").getAsString();
-            String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
-            String profileImg = properties.getAsJsonObject().get("profile_image").getAsString();
-
-            member = new Member();
-            member.setSnsId(snsId);
-            member.setSnsType(snsType);
-            member.setEmail(email);
-            member.setProfileImg(profileImg);
-
-            // 회원가입 처리
-            member = memberInPort.join(member);
-
-        } else if ("naver".equals(snsType)) {
-            JsonObject res = element.getAsJsonObject().get("response").getAsJsonObject();
-            String snsId = res.getAsJsonObject().get("id").getAsString();
-            String email = res.getAsJsonObject().get("email").getAsString();
-            String profileImg = res.getAsJsonObject().get("profile_image").getAsString();
-
-            member = new Member();
-            member.setSnsId(snsId);
-            member.setSnsType(snsType);
-            member.setEmail(email);
-            member.setProfileImg(profileImg);
-
-            // 회원가입 처리
-            member = memberInPort.join(member);
-        }
-        return new ResponseEntity<>(member, HttpStatus.OK);
+    /**
+     * 회원 탈퇴
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/member/{id}")
+    public ResponseEntity<?> accountRemove(@PathVariable(value = "id") Long id, HttpSession httpSession){
+        Long count = memberInPort.accountRemove(id, httpSession);
+        return ResponseEntity.ok(count);
     }
 
 }

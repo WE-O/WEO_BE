@@ -1,5 +1,6 @@
 package com.plant.web.api.member.application.service;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -9,14 +10,15 @@ import com.plant.web.api.member.domain.Member;
 import com.plant.web.config.utill.RandomNickname;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.asm.Advice;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
+import javax.swing.text.html.parser.Entity;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -28,17 +30,15 @@ public class MemberService implements MemberInPort {
     /**
      * 회원 가입
      */
-    @Transactional
-    public Member join(Member member) {
-
-        Member findUsers = findBySnsId(member.getSnsId());    //중복 회원 검증
+    public Member join(String accessToken, String snsType) {
+        Member findUsers = findBySnsId(accessToken, snsType);    //중복 회원 검증
 
         if(findUsers == null) {
+            Member getProfile =  getProfile(accessToken, snsType);
             log.info("최초 회원 가입");
             //회원가입 진행
             //USER_ID, SNS_ID, NICKNAME, EMAIL, PROFILE_IMG, SNS_TYPE, JOIN_DATE
             //snsId, snsType, email, profileImg
-
             String nickname = "";
 
             //닉네임 중복 체크
@@ -48,40 +48,25 @@ public class MemberService implements MemberInPort {
                 nickname = RandomNickname.Nickname();
             } while (nicknameDupCheck(nickname) > 0);
 
-            member.setNickname(nickname);
-
-            //현재 시간 세팅
-            member.setJoinDate(LocalDateTime.now());
-
-            //탈퇴여부 N 세팅
-            member.setDelYn('N');
+            findUsers.setSnsId(getProfile.getSnsId());
+            findUsers.setSnsType(getProfile.getSnsType());
+            findUsers.setEmail(getProfile.getEmail());
+            findUsers.setNickname(nickname);
 
             //회원가입
-            memberPersistenceOutPort.save(member);
-        } else {
-            log.info("기존 회원 정보 조회");
-            Long id = findUsers.getId();
-            String nickname = findUsers.getNickname();
-            LocalDateTime joinDate = findUsers.getJoinDate();
-            LocalDateTime delDate = findUsers.getDelDate();
-            char delYn = findUsers.getDelYn();
-
-            member.setId(id);
-            member.setNickname(nickname);
-            member.setJoinDate(joinDate);
-            member.setDelDate(delDate);
-            member.setDelYn(delYn);
+            memberPersistenceOutPort.save(findUsers);
         }
-
-        return member;
+        return findUsers;
     }
 
     /**
-     * 기존 가입 회원 정보 확인
+     * snsID로 기존회원 정보조회
      */
-    private Member findBySnsId(String snsId) {
+    private Member findBySnsId(String accessToken, String snsType) {
         log.info("기존 가입 회원 정보 확인");
-        return memberPersistenceOutPort.findBySnsId(snsId);
+        Member getProfile = getProfile(accessToken , snsType);
+        String getSnsId = getProfile.getSnsId();
+        return memberPersistenceOutPort.findBySnsId(getSnsId);
     }
 
     /**
@@ -92,28 +77,52 @@ public class MemberService implements MemberInPort {
     }
 
     /**
-     * 프로필 조회
+     * 회원 탈퇴
      */
     @Override
-    public ResponseEntity getProfile(String accessToken, String snsType) {
+    public Long accountRemove(Long id, HttpSession httpSession) {
+        return memberPersistenceOutPort.accountRemove(id, httpSession);
+    }
 
+    /**
+     * 프로필 조회
+     */
+    public Member getProfile(String accessToken, String snsType) {
         ResponseEntity<?> resultMap = null;
-
+        JsonElement element =  null;
+        Member member = new Member();
         if ("kakao".equals(snsType)) {
-
             // 카카오 프로필 가져오기
             resultMap = memberPersistenceOutPort.requestKakaoProfile(memberPersistenceOutPort.generateProfileRequest(accessToken));
+            element = JsonParser.parseString(resultMap.getBody().toString());
+            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+            JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+            String snsId = element.getAsJsonObject().get("id").getAsString();
+            String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
+            String profileImg = properties.getAsJsonObject().get("profile_image").getAsString();
+
+            member.setSnsType(snsType);
+            member.setSnsId(snsId);
+            member.setEmail(email);
+            member.setProfileImg(profileImg);
 
             System.out.println("kakao memberInfo = " + resultMap);
-
         } else if ("naver".equals(snsType)) {
             // 네이버 프로필 가져오기
             resultMap = memberPersistenceOutPort.requestNaverProfile(memberPersistenceOutPort.generateProfileRequest(accessToken));
+            element = JsonParser.parseString(resultMap.getBody().toString());
+            JsonObject naverAccount = element.getAsJsonObject().get("response").getAsJsonObject();
+            String snsId = naverAccount.getAsJsonObject().get("id").getAsString();
+            String email = naverAccount.getAsJsonObject().get("email").getAsString();
+            String profileImg = naverAccount.getAsJsonObject().get("profile_image").getAsString();
+
+            member.setSnsType(snsType);
+            member.setSnsId(snsId);
+            member.setEmail(email);
+            member.setProfileImg(profileImg);
 
             System.out.println("naver memberInfo = " + resultMap);
         }
-        return  resultMap;
+        return  member;
     }
-
-
 }

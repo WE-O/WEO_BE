@@ -6,6 +6,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface MemberPersistenceOutPort {
@@ -40,4 +41,5 @@ public interface MemberPersistenceOutPort {
      */
     List<Member> findByNickname(String nickname);
 
+    Long accountRemove(Long id, HttpSession httpSession);
 }

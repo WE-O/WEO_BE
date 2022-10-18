@@ -14,9 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Slf4j
@@ -72,11 +75,17 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
      */
     public ResponseEntity<String> requestNaverProfile(HttpEntity request) {
         RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> reponse = null;
+        try {
+            reponse = restTemplate.exchange("https://openapi.naver.com/v1/nid/me",
+                    HttpMethod.POST,
+                    request,
+                    String.class);
+        } catch (HttpClientErrorException e) {
+            log.info("httpStatus Error : {}" ,e);
+        }
 
-        return restTemplate.exchange("https://openapi.naver.com/v1/nid/me",
-                HttpMethod.POST,
-                request,
-                String.class);
+        return reponse;
     }
 
     /**
@@ -115,5 +124,23 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
         return em.createQuery("select u from Member u where u.nickname = :nickname", Member.class)
                 .setParameter("nickname", nickname)
                 .getResultList();
+    }
+
+
+    /**
+     * 회원 탈퇴
+     * @param id
+     * @return
+     */
+    @Override
+    public Long accountRemove(Long id, HttpSession httpSession) {
+        log.info("snsId로 회원 조회");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QMember m = new QMember("m");
+
+        return queryFactory.update(m)
+                .set(m.delYn, 'Y')
+                .where(m.id.eq(id))
+                .execute();
     }
 }
