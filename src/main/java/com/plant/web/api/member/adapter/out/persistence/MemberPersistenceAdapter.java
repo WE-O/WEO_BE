@@ -121,9 +121,15 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
      * @return
      */
     public List<Member> findByNickname(String nickname) {
-        return em.createQuery("select u from Member u where u.nickname = :nickname", Member.class)
-                .setParameter("nickname", nickname)
-                .getResultList();
+        log.info("닉네임 중복 체크");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QMember m = new QMember("m");
+
+        return queryFactory
+                .select(m)
+                .from(m)
+                .where(m.nickname.eq(nickname))
+                .fetch();
     }
 
 
