@@ -12,10 +12,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 @Configuration
-@EnableSwagger2
+//@EnableSwagger2
 public class SwaggerConfig {
 
-    private final String BASEPACKGE = "bside.weo.plant.application.controller.in";
+    private final String BASEPACKGE = "com.plant.web.api.member.adapter.in.controller";
 
     private final String version = "/v1";
 
@@ -26,7 +26,7 @@ public class SwaggerConfig {
     @Bean
     public Docket api(){
 
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(BASEPACKGE))
                 .paths(PathSelectors.ant(PATH))
