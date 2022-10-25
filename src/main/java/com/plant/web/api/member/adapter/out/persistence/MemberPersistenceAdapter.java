@@ -149,4 +149,21 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
                 .where(m.snsId.eq(snsid))
                 .execute();
     }
+
+    /**
+     * 닉네임 수정
+     * @param snsId
+     * @param nickname
+     * @return
+     */
+    public Long modifyNickname(String snsId, String nickname) {
+        log.info("닉네임 수정");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QMember m = new QMember("m");
+
+        return queryFactory.update(m)
+                .set(m.nickname, nickname)
+                .where(m.snsId.eq(snsId))
+                .execute();
+    }
 }

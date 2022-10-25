@@ -52,6 +52,7 @@ public class MemberService implements MemberInPort {
             findUsers.setSnsType(getProfile.getSnsType());
             findUsers.setEmail(getProfile.getEmail());
             findUsers.setNickname(nickname);
+            findUsers.setProfileImg(getProfile.getProfileImg());
 
             //회원가입
             memberPersistenceOutPort.save(findUsers);
@@ -130,15 +131,20 @@ public class MemberService implements MemberInPort {
         }
         return  member;
     }
-    
+
+    /**
+     * 닉네임 수정
+     * @param snsId
+     * @param nickname
+     * @return
+     */
     public Long modifyNickname(String snsId, String nickname) {
         Member member = memberPersistenceOutPort.findBySnsId(snsId);
         int dupCheck = nicknameDupCheck(nickname);
 
         // 받아온 닉네임 중복 확인
         if(dupCheck > 0) {
-            // 값이 있으면 1을 반환? -> 안됨 둘다 1임..
-            return Long.valueOf(dupCheck);
+            return Long.valueOf(-1);
         } else {
             // 없으면 변경
             return memberPersistenceOutPort.modifyNickname(snsId, nickname);
