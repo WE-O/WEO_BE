@@ -41,7 +41,12 @@ public interface MemberPersistenceOutPort {
      */
     List<Member> findByNickname(String nickname);
 
-    Long accountRemove(String snsid);
+    /**
+     * 회원 탈퇴
+     * @param snsId
+     * @return
+     */
+    Long accountRemove(String snsId);
 
     /**
      * 닉네임 수정

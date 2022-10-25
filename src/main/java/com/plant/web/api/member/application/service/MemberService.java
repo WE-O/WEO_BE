@@ -84,13 +84,13 @@ public class MemberService implements MemberInPort {
      * 회원 탈퇴
      */
     @Override
-    public Long accountRemove(String snsid) {
-        return memberPersistenceOutPort.accountRemove(snsid);
+    public Long accountRemove(String snsId) {
+        return memberPersistenceOutPort.accountRemove(snsId);
     }
 
     @Override
-    public Member findBySnsId(String snsid) {
-        return memberPersistenceOutPort.findBySnsId(snsid);
+    public Member findBySnsId(String snsId) {
+        return memberPersistenceOutPort.findBySnsId(snsId);
     }
 
     /**

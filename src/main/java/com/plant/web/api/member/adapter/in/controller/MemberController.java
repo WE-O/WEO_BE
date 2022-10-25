@@ -36,23 +36,23 @@ public class MemberController {
 
     /**
      * 회원 탈퇴
-     * @param snsid
+     * @param snsId
      * @return
      */
-    @DeleteMapping("/{snsid}")
-    public ResponseEntity<?> accountRemove(@PathVariable(value = "snsid") String snsid, HttpSession httpSession){
-        Long count = memberInPort.accountRemove(snsid);
+    @DeleteMapping("/{snsId}")
+    public ResponseEntity<?> accountRemove(@PathVariable(value = "snsId") String snsId, HttpSession httpSession){
+        Long count = memberInPort.accountRemove(snsId);
         return ResponseEntity.ok(count);
     }
 
     /**
      * 프로필 조회
-     * @param snsid
+     * @param snsId
      * @return
      */
-    @GetMapping("/{snsid}")
-    public ResponseEntity<?> getProfile(@PathVariable(value = "snsid") String snsid, HttpSession httpSession){
-        Member member = memberInPort.findBySnsId(snsid);
+    @GetMapping("/{snsId}")
+    public ResponseEntity<?> getProfile(@PathVariable(value = "snsId") String snsId, HttpSession httpSession){
+        Member member = memberInPort.findBySnsId(snsId);
         return ResponseEntity.ok(member);
     }
 
