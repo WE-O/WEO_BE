@@ -48,11 +48,14 @@ public class MemberService implements MemberInPort {
                 nickname = RandomNickname.Nickname();
             } while (nicknameDupCheck(nickname) > 0);
 
+            findUsers = new Member();
             findUsers.setSnsId(getProfile.getSnsId());
             findUsers.setSnsType(getProfile.getSnsType());
             findUsers.setEmail(getProfile.getEmail());
             findUsers.setNickname(nickname);
             findUsers.setProfileImg(getProfile.getProfileImg());
+            // 추후 수정
+            findUsers.setDelYn('N');
 
             //회원가입
             memberPersistenceOutPort.save(findUsers);
