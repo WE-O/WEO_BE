@@ -13,4 +13,6 @@ public interface MemberInPort {
 
     Member findBySnsId(String snsid);
 
+    Long modifyNickname(String snsId, String nickname);
+
 }

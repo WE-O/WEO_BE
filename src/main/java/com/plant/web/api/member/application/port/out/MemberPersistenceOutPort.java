@@ -43,6 +43,12 @@ public interface MemberPersistenceOutPort {
 
     Long accountRemove(String snsid);
 
-
+    /**
+     * 닉네임 수정
+     * @param snsId
+     * @param nickname
+     * @return
+     */
+    Long modifyNickname(String snsId, String nickname);
 
 }
