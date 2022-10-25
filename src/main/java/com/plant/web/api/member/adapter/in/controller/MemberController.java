@@ -61,8 +61,8 @@ public class MemberController {
      * @param snsId
      * @return
      */
-    @PostMapping(value = "/{snsId}/{nickname}")
-    public ResponseEntity<?> modifyNickname(@PathVariable(value = "snsId") String snsId, @PathVariable(value = "nickname") String nickname) {
+    @PutMapping(value = "/nickname")
+    public ResponseEntity<?> modifyNickname(@RequestParam("snsId") String snsId, @RequestParam("nickname") String nickname) {
         Long count = memberInPort.modifyNickname(snsId, nickname);
         return ResponseEntity.ok(count);
     }

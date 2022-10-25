@@ -77,6 +77,7 @@ public class MemberService implements MemberInPort {
      * 닉네임 중복 확인
      */
     private int nicknameDupCheck(String nickname) {
+        log.info("닉네임 중복 확인");
         return memberPersistenceOutPort.findByNickname(nickname).size();
     }
 
@@ -142,6 +143,7 @@ public class MemberService implements MemberInPort {
      * @return
      */
     public Long modifyNickname(String snsId, String nickname) {
+        log.info("닉네임 수정");
         Member member = memberPersistenceOutPort.findBySnsId(snsId);
         int dupCheck = nicknameDupCheck(nickname);
 
