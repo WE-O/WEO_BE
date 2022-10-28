@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/boards")
+@RequestMapping("/api/v1/places")
 @Api(tags = {"지도 검색 조회 API"})
 public class PlaceController {
     private final PlaceInPort placeInPort;
@@ -21,11 +21,11 @@ public class PlaceController {
         this.placeInPort = placeInPort;
     }
 
-    @GetMapping("/places")
+    @GetMapping("/search")
     @ApiParam(name = "keyword",value = "keyword")
     @Operation(summary = "지도 검색", description = "메인페이지에서 지도 검색")
-    public ResponseEntity<?> get(@RequestParam(name = "keyword") String keyword){
-        JSONObject response = placeInPort.getPlaces(keyword);
+    public ResponseEntity<?> get(@RequestParam(name = "keyword") String keyword, @RequestParam(name= "loginCheck", required = false) String loginCheck){
+        JSONObject response = placeInPort.getPlaces(keyword, loginCheck);
         return ResponseEntity.ok(response);
     }
 }

@@ -45,5 +45,9 @@ public class Place {
     @Column(name = "y")
     private String y;
 
+    @Column(name = "views")
+    private int views;
 
+    @Column(name = "reviews")
+    private int reviews;
 }

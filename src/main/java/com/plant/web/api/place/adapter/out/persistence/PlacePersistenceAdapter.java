@@ -37,10 +37,15 @@ public class PlacePersistenceAdapter implements PlacePersistenceOutPort {
 
         HttpEntity httpEntity = new HttpEntity(headers);
 
-        URI uri = UriComponentsBuilder.fromUriString("https://dapi.kakao.com//v2/local/search/keyword").queryParam("query", keyword).queryParam("page", 1).queryParam("size", 15).build().toUri();
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://dapi.kakao.com//v2/local/search/keyword")
+                .queryParam("query", keyword)
+                .queryParam("page", 1)
+                .queryParam("size", 15)
+                .build()
+                .toUri();
 
-        ParameterizedTypeReference<Map<String, Object>> typeReference = new ParameterizedTypeReference<Map<String, Object>>() {
-        };
+        ParameterizedTypeReference<Map<String, Object>> typeReference = new ParameterizedTypeReference<Map<String, Object>>() {};
 
         ResponseEntity<Map<String, Object>> responseEntity = restTemplate.exchange(uri.toString(), HttpMethod.GET, httpEntity, typeReference);
 
@@ -64,5 +69,15 @@ public class PlacePersistenceAdapter implements PlacePersistenceOutPort {
     @Override
     public Place save(Place place) {
         return placeJPARepository.save(place);
+    }
+
+    @Override
+    public int getByViews(String id) {
+        return placeJPARepository.findByViews(id);
+    }
+
+    @Override
+    public int getByReviews(String id) {
+        return placeJPARepository.findByReviews(id);
     }
 }
