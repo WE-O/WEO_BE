@@ -16,4 +16,7 @@ public interface PlacePersistenceOutPort {
     int getByViews(String id);
 
     int getByReviews(String id);
+
+    Place getByPlaceId(String id);
+
 }

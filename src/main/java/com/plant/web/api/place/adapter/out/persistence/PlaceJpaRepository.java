@@ -14,9 +14,11 @@ public interface PlaceJpaRepository extends JpaRepository<Place, Serializable> {
     Place save(Place board);
 
     @Query("SELECT views FROM Place WHERE placeId = :placeId")
-    int findByViews(@Param("placeId") String id);
+    int getByViews(@Param("placeId") String id);
 
     @Query("SELECT reviews FROM Place WHERE placeId = :placeId")
-    int findByReviews(@Param("placeId") String id);
+    int getByReviews(@Param("placeId") String id);
+
+    Place getByPlaceId(String id);
 
 }

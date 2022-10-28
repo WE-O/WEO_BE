@@ -73,11 +73,16 @@ public class PlacePersistenceAdapter implements PlacePersistenceOutPort {
 
     @Override
     public int getByViews(String id) {
-        return placeJPARepository.findByViews(id);
+        return placeJPARepository.getByViews(id);
     }
 
     @Override
     public int getByReviews(String id) {
-        return placeJPARepository.findByReviews(id);
+        return placeJPARepository.getByReviews(id);
+    }
+
+    @Override
+    public Place getByPlaceId(String id) {
+        return placeJPARepository.getByPlaceId(id);
     }
 }

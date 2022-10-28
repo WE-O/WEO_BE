@@ -27,10 +27,15 @@ public class PlaceService implements PlaceInPort {
 
     @Override
     public JSONObject getPlaces(String keyword, String loginCheck) {
-        JSONObject jsonObject = savePlace(keyword);
-        return jsonObject;
+        JSONObject getPlaces = savePlace(keyword);
+        return getPlaces;
     }
 
+    @Override
+    public Place getPlaceDetails(String id, String loginCheck) {
+        Place place = placePersistenceOutPort.getByPlaceId(id);
+        return place;
+    }
 
     /**
      * 카카오 API 에서 받아오는 데이터가 없을경우 저장

@@ -50,4 +50,5 @@ public class Place {
 
     @Column(name = "reviews")
     private int reviews;
+
 }
