@@ -31,14 +31,14 @@ public class MemberService implements MemberInPort {
      * 회원 가입
      */
     public Member join(String accessToken, String snsType) {
-        Member findUsers = findBySnsId(accessToken, snsType);    //중복 회원 검증
+        Member findUsers = findByMemberId(accessToken, snsType);    //중복 회원 검증
 
         if(findUsers == null) {
             Member getProfile =  getProfile(accessToken, snsType);
             log.info("최초 회원 가입");
             //회원가입 진행
-            //USER_ID, SNS_ID, NICKNAME, EMAIL, PROFILE_IMG, SNS_TYPE, JOIN_DATE
-            //snsId, snsType, email, profileImg
+            //MEMBER_ID, NICKNAME, EMAIL, PROFILE_IMG, SNS_TYPE, JOIN_DATE
+            //memberId, snsType, email, profileImg
             String nickname = "";
 
             //닉네임 중복 체크
@@ -49,7 +49,7 @@ public class MemberService implements MemberInPort {
             } while (nicknameDupCheck(nickname) > 0);
 
             findUsers = new Member();
-            findUsers.setSnsId(getProfile.getSnsId());
+            findUsers.setMemberId(getProfile.getMemberId());
             findUsers.setSnsType(getProfile.getSnsType());
             findUsers.setEmail(getProfile.getEmail());
             findUsers.setNickname(nickname);
@@ -64,13 +64,13 @@ public class MemberService implements MemberInPort {
     }
 
     /**
-     * snsID로 기존회원 정보조회
+     * memberId로 기존회원 정보조회
      */
-    private Member findBySnsId(String accessToken, String snsType) {
+    private Member findByMemberId(String accessToken, String snsType) {
         log.info("기존 가입 회원 정보 확인");
         Member getProfile = getProfile(accessToken , snsType);
-        String getSnsId = getProfile.getSnsId();
-        return memberPersistenceOutPort.findBySnsId(getSnsId);
+        String getMemberId = getProfile.getMemberId();
+        return memberPersistenceOutPort.findByMemberId(getMemberId);
     }
 
     /**
@@ -85,13 +85,13 @@ public class MemberService implements MemberInPort {
      * 회원 탈퇴
      */
     @Override
-    public Long accountRemove(String snsId) {
-        return memberPersistenceOutPort.accountRemove(snsId);
+    public Long accountRemove(String memberId) {
+        return memberPersistenceOutPort.accountRemove(memberId);
     }
 
     @Override
-    public Member findBySnsId(String snsId) {
-        return memberPersistenceOutPort.findBySnsId(snsId);
+    public Member findByMemberId(String memberId) {
+        return memberPersistenceOutPort.findByMemberId(memberId);
     }
 
     /**
@@ -107,12 +107,12 @@ public class MemberService implements MemberInPort {
             element = JsonParser.parseString(resultMap.getBody().toString());
             JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
             JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-            String snsId = element.getAsJsonObject().get("id").getAsString();
+            String memberId = element.getAsJsonObject().get("id").getAsString();
             String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
             String profileImg = properties.getAsJsonObject().get("profile_image").getAsString();
 
             member.setSnsType(snsType);
-            member.setSnsId(snsId);
+            member.setMemberId(memberId);
             member.setEmail(email);
             member.setProfileImg(profileImg);
 
@@ -122,12 +122,12 @@ public class MemberService implements MemberInPort {
             resultMap = memberPersistenceOutPort.requestNaverProfile(memberPersistenceOutPort.generateProfileRequest(accessToken));
             element = JsonParser.parseString(resultMap.getBody().toString());
             JsonObject naverAccount = element.getAsJsonObject().get("response").getAsJsonObject();
-            String snsId = naverAccount.getAsJsonObject().get("id").getAsString();
+            String memberId = naverAccount.getAsJsonObject().get("id").getAsString();
             String email = naverAccount.getAsJsonObject().get("email").getAsString();
             String profileImg = naverAccount.getAsJsonObject().get("profile_image").getAsString();
 
             member.setSnsType(snsType);
-            member.setSnsId(snsId);
+            member.setMemberId(memberId);
             member.setEmail(email);
             member.setProfileImg(profileImg);
 
@@ -138,21 +138,21 @@ public class MemberService implements MemberInPort {
 
     /**
      * 닉네임 수정
-     * @param snsId
+     * @param memberId
      * @param nickname
      * @return
      */
-    public Long modifyNickname(String snsId, String nickname) {
+    public Long modifyNickname(String memberId, String nickname) {
         log.info("닉네임 수정");
-        Member member = memberPersistenceOutPort.findBySnsId(snsId);
+        Member member = memberPersistenceOutPort.findByMemberId(memberId);
         int dupCheck = nicknameDupCheck(nickname);
 
         // 받아온 닉네임 중복 확인
         if(dupCheck > 0) {
-            return Long.valueOf(-1);
+            return Long.valueOf(0);
         } else {
             // 없으면 변경
-            return memberPersistenceOutPort.modifyNickname(snsId, nickname);
+            return memberPersistenceOutPort.modifyNickname(memberId, nickname);
         }
     }
 }

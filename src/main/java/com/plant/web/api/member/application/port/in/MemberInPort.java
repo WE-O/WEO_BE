@@ -9,10 +9,10 @@ import java.util.List;
 public interface MemberInPort {
     Member join(String accessToken, String snsType);
 
-    Long accountRemove(String snsId);
+    Long accountRemove(String memberId);
 
-    Member findBySnsId(String snsId);
+    Member findByMemberId(String memberId);
 
-    Long modifyNickname(String snsId, String nickname);
+    Long modifyNickname(String memberId, String nickname);
 
 }

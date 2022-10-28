@@ -98,20 +98,20 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
     }
 
     /**
-     * snsId로 회원 조회
-     * @param snsId
+     * memberId로 회원 조회
+     * @param memberId
      * @return
      */
     //querydsl로 변경 필요!
-    public Member findBySnsId(String snsId) {
-        log.info("snsId로 회원 조회");
+    public Member findByMemberId(String memberId) {
+        log.info("memberId로 회원 조회");
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QMember m = new QMember("m");
 
         return queryFactory
                 .select(m)
                 .from(m)
-                .where(m.snsId.eq(snsId))
+                .where(m.memberId.eq(memberId))
                 .fetchOne();
     }
 
@@ -135,35 +135,35 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
 
     /**
      * 회원 탈퇴
-     * @param snsId
+     * @param memberId
      * @return
      */
     @Override
-    public Long accountRemove(String snsId) {
-        log.info("snsId로 회원 조회");
+    public Long accountRemove(String memberId) {
+        log.info("memberId로 회원 조회");
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QMember m = new QMember("m");
 
         return queryFactory.update(m)
                 .set(m.delYn, 'Y')
-                .where(m.snsId.eq(snsId))
+                .where(m.memberId.eq(memberId))
                 .execute();
     }
 
     /**
      * 닉네임 수정
-     * @param snsId
+     * @param memberId
      * @param nickname
      * @return
      */
-    public Long modifyNickname(String snsId, String nickname) {
+    public Long modifyNickname(String memberId, String nickname) {
         log.info("닉네임 수정");
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QMember m = new QMember("m");
 
         return queryFactory.update(m)
                 .set(m.nickname, nickname)
-                .where(m.snsId.eq(snsId))
+                .where(m.memberId.eq(memberId))
                 .execute();
     }
 }

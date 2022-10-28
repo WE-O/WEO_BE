@@ -11,16 +11,13 @@ import java.time.LocalDateTime;
 
 @DynamicInsert
 @Entity
-@Table(name="TBL_MEMBER", uniqueConstraints = {@UniqueConstraint(name="nickname_snsid_unique", columnNames = {"nickname", "sns_id"})})
+@Table(name="TBL_MEMBER")
 @Getter @Setter
 public class Member {
 
-    @Id @GeneratedValue
+    @Id
     @Column(name = "member_id")
-    private String id;
-
-    @Column(name = "sns_id")
-    private String snsId;
+    private String memberId;
 
     @Column(name = "nickname")
     private String nickname;

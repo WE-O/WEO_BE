@@ -32,9 +32,9 @@ public interface MemberPersistenceOutPort {
     void save(Member member);
 
     /**
-     * snsId 가입 회원 확인
+     * memberId 가입 회원 확인
      */
-    Member findBySnsId(String snsId);
+    Member findByMemberId(String memberId);
 
     /**
      * 닉네임 중복 체크
@@ -43,17 +43,17 @@ public interface MemberPersistenceOutPort {
 
     /**
      * 회원 탈퇴
-     * @param snsId
+     * @param memberId
      * @return
      */
-    Long accountRemove(String snsId);
+    Long accountRemove(String memberId);
 
     /**
      * 닉네임 수정
-     * @param snsId
+     * @param memberId
      * @param nickname
      * @return
      */
-    Long modifyNickname(String snsId, String nickname);
+    Long modifyNickname(String memberId, String nickname);
 
 }

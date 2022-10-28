@@ -36,34 +36,34 @@ public class MemberController {
 
     /**
      * 회원 탈퇴
-     * @param snsId
+     * @param memberId
      * @return
      */
-    @DeleteMapping("/{snsId}")
-    public ResponseEntity<?> accountRemove(@PathVariable(value = "snsId") String snsId, HttpSession httpSession){
-        Long count = memberInPort.accountRemove(snsId);
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<?> accountRemove(@PathVariable(value = "memberId") String memberId, HttpSession httpSession){
+        Long count = memberInPort.accountRemove(memberId);
         return ResponseEntity.ok(count);
     }
 
     /**
      * 프로필 조회
-     * @param snsId
+     * @param memberId
      * @return
      */
-    @GetMapping("/{snsId}")
-    public ResponseEntity<?> getProfile(@PathVariable(value = "snsId") String snsId, HttpSession httpSession){
-        Member member = memberInPort.findBySnsId(snsId);
+    @GetMapping("/{memberId}")
+    public ResponseEntity<?> getProfile(@PathVariable(value = "memberId") String memberId, HttpSession httpSession){
+        Member member = memberInPort.findByMemberId(memberId);
         return ResponseEntity.ok(member);
     }
 
     /**
      * 닉네임 수정
-     * @param snsId
+     * @param memberId
      * @return
      */
     @PutMapping(value = "/nickname")
-    public ResponseEntity<?> modifyNickname(@RequestParam("snsId") String snsId, @RequestParam("nickname") String nickname) {
-        Long count = memberInPort.modifyNickname(snsId, nickname);
+    public ResponseEntity<?> modifyNickname(@RequestParam("memberId") String memberId, @RequestParam("nickname") String nickname) {
+        Long count = memberInPort.modifyNickname(memberId, nickname);
         return ResponseEntity.ok(count);
     }
 
