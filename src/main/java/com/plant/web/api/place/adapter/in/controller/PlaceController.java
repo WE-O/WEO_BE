@@ -19,7 +19,6 @@ public class PlaceController {
         this.placeInPort = placeInPort;
     }
 
-    @GetMapping("/search")
     @ApiParam(name = "keyword",value = "keyword")
     @Operation(summary = "지도 검색", description = "메인페이지에서 지도 검색")
     public ResponseEntity<?> Places(@RequestParam(name = "keyword") String keyword, @RequestParam(name= "loginCheck", required = false) String loginCheck){
