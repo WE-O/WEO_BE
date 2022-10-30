@@ -2,6 +2,7 @@ package com.plant.web.api.member.adapter.in.controller;
 
 import com.plant.web.api.member.application.port.in.MemberInPort;
 import com.plant.web.api.member.domain.Member;
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/member")
+@Api(tags = {"회원 관련 API"})
 public class MemberController {
 
     private final MemberInPort memberInPort;
@@ -28,8 +30,8 @@ public class MemberController {
      * @param snsType
      * @return
      */
-    @Operation(summary = "로그인", description = "토큰값으로 sns정보를 조회 후, 받아온 정보가 DB에 없으면 회원가입 후 로그인")
     @GetMapping(value = "/join")
+    @Operation(summary = "로그인", description = "토큰값으로 sns정보를 조회 후, 받아온 정보가 DB에 없으면 회원가입 후 로그인")
     public ResponseEntity<?> getJoin(@RequestParam("accessToken") String accessToken, @RequestParam("snsType") String snsType) {
         Member responseEntity = memberInPort.join(accessToken, snsType);
         return ResponseEntity.ok(responseEntity);
@@ -41,6 +43,7 @@ public class MemberController {
      * @return
      */
     @DeleteMapping("/{memberId}")
+    @Operation(summary = "회원 탈퇴")
     public ResponseEntity<?> accountRemove(@PathVariable(value = "memberId") String memberId, HttpSession httpSession){
         Long count = memberInPort.accountRemove(memberId);
         return ResponseEntity.ok(count);
@@ -52,6 +55,7 @@ public class MemberController {
      * @return
      */
     @GetMapping("/{memberId}")
+    @Operation(summary = "회원 정보 조회")
     public ResponseEntity<?> getProfile(@PathVariable(value = "memberId") String memberId, HttpSession httpSession){
         Member member = memberInPort.findByMemberId(memberId);
         return ResponseEntity.ok(member);
@@ -63,6 +67,7 @@ public class MemberController {
      * @return
      */
     @PutMapping(value = "/nickname")
+    @Operation(summary = "닉네임 수정")
     public ResponseEntity<?> modifyNickname(@RequestParam("memberId") String memberId, @RequestParam("nickname") String nickname) {
         Long count = memberInPort.modifyNickname(memberId, nickname);
         return ResponseEntity.ok(count);
@@ -75,6 +80,7 @@ public class MemberController {
      * @return
      */
     @GetMapping(value = "/bookmark/{memberId}")
+    @Operation(summary = "회원별 북마크 리스트 조회")
     public ResponseEntity<?> findBookmarksByMemberId(@PathVariable(value = "memberId") String memberId) {
         List bookmarks = memberInPort.findBookmarksByMemberId(memberId);
         return ResponseEntity.ok(bookmarks);

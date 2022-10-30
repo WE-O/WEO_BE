@@ -180,7 +180,7 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QBookmark B = new QBookmark("B");
         QPlace P = new QPlace("P");
-
+        
         return queryFactory.select(Projections.bean(BookmarkDTO.class, B.bookmarkId, B.member.memberId, P.placeName, P.roadAddressName, B.memo))
                 .from(B)
                 .join(P).on(B.place.placeId.eq(P.placeId))
