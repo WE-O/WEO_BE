@@ -1,6 +1,7 @@
 package com.plant.web.api.member.application.port.out;
 
 import com.google.gson.JsonObject;
+import com.plant.web.api.member.domain.Bookmark;
 import com.plant.web.api.member.domain.Member;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -55,5 +56,12 @@ public interface MemberPersistenceOutPort {
      * @return
      */
     Long modifyNickname(String memberId, String nickname);
+
+    /**
+     * 회원별 북마크 리스트 조회
+     * @param memberId
+     * @return
+     */
+    List findBookmarksByMemberId(String memberId);
 
 }

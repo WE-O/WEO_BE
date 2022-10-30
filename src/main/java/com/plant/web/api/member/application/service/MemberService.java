@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.plant.web.api.member.application.port.in.MemberInPort;
 import com.plant.web.api.member.application.port.out.MemberPersistenceOutPort;
+import com.plant.web.api.member.domain.Bookmark;
 import com.plant.web.api.member.domain.Member;
 import com.plant.web.config.utill.RandomNickname;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 import javax.swing.text.html.parser.Entity;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -154,5 +156,16 @@ public class MemberService implements MemberInPort {
             // 없으면 변경
             return memberPersistenceOutPort.modifyNickname(memberId, nickname);
         }
+    }
+
+    /**
+     * 회원별 북마크 조회
+     * @param memberId
+     * @return
+     */
+    public List<Bookmark> findBookmarksByMemberId(String memberId) {
+        log.info(memberId + " 회원의 북마크 조회");
+        List bookmarks = memberPersistenceOutPort.findBookmarksByMemberId(memberId);
+        return bookmarks;
     }
 }

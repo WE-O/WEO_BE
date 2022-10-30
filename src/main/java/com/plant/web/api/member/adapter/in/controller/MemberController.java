@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * 로그인 컨트롤러
@@ -67,5 +68,16 @@ public class MemberController {
         return ResponseEntity.ok(count);
     }
 
+
+    /**
+     * 회원별 북마크 리스트 조회
+     * @param memberId
+     * @return
+     */
+    @GetMapping(value = "/bookmark/{memberId}")
+    public ResponseEntity<?> findBookmarksByMemberId(@PathVariable(value = "memberId") String memberId) {
+        List bookmarks = memberInPort.findBookmarksByMemberId(memberId);
+        return ResponseEntity.ok(bookmarks);
+    }
 
 }

@@ -15,4 +15,5 @@ public interface MemberInPort {
 
     Long modifyNickname(String memberId, String nickname);
 
+    List findBookmarksByMemberId(String memberId);
 }

@@ -8,6 +8,8 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @DynamicInsert
 @Entity
@@ -41,4 +43,7 @@ public class Member {
     @ColumnDefault("'N'")
     @Column(name = "del_yn")
     private char delYn;
+
+    @OneToMany(mappedBy = "member") //조회만 가능
+    private List<Bookmark> bookmarks = new ArrayList<>();
 }

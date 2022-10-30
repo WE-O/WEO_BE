@@ -2,8 +2,10 @@ package com.plant.web.api.member.adapter.out.persistence;
 
 import com.google.gson.JsonObject;
 import com.plant.web.api.member.application.port.out.MemberPersistenceOutPort;
-import com.plant.web.api.member.domain.Member;
-import com.plant.web.api.member.domain.QMember;
+import com.plant.web.api.member.domain.*;
+import com.plant.web.api.place.domain.QPlace;
+import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -166,4 +168,24 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
                 .where(m.memberId.eq(memberId))
                 .execute();
     }
+
+    /**
+     * 회원별 북마크 리스트 조회
+     * @param memberId
+     * @return
+     */
+
+    public List<BookmarkDTO> findBookmarksByMemberId(String memberId) {
+        log.info("회원별 북마크 리스트 조회");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QBookmark B = new QBookmark("B");
+        QPlace P = new QPlace("P");
+
+        return queryFactory.select(Projections.bean(BookmarkDTO.class, B.bookmarkId, B.member.memberId, P.placeName, P.roadAddressName, B.memo))
+                .from(B)
+                .join(P).on(B.place.placeId.eq(P.placeId))
+                .where(B.member.memberId.eq(memberId))
+                .fetch();
+    }
+
 }
