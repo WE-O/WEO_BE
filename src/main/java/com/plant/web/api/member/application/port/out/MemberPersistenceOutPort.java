@@ -72,4 +72,11 @@ public interface MemberPersistenceOutPort {
      * @return
      */
     Long modifyBookmark(String memberId, String bookmarkId, String memo);
+
+    /**
+     * 회원별 리뷰 리스트 조회
+     * @param memberId
+     * @return
+     */
+    List findReviewsByMemberId(String memberId);
 }

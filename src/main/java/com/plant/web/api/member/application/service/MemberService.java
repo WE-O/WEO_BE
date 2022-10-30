@@ -8,6 +8,8 @@ import com.plant.web.api.member.application.port.in.MemberInPort;
 import com.plant.web.api.member.application.port.out.MemberPersistenceOutPort;
 import com.plant.web.api.member.domain.Bookmark;
 import com.plant.web.api.member.domain.Member;
+import com.plant.web.api.member.domain.Review;
+import com.plant.web.api.member.domain.ReviewDTO;
 import com.plant.web.config.utill.RandomNickname;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -179,5 +181,16 @@ public class MemberService implements MemberInPort {
     public Long modifyBookmark(String memberId, String bookmarkId, String memo) {
         log.info("북마크 수정");
         return memberPersistenceOutPort.modifyBookmark(memberId, bookmarkId, memo);
+    }
+
+    /**
+     * 회원별 리뷰 리스트 조회
+     * @param memberId
+     * @return
+     */
+    public List<ReviewDTO> findReviewsByMemberId(String memberId) {
+        log.info(memberId + " 회원의 리뷰 리스트 조회");
+        List reviews = memberPersistenceOutPort.findReviewsByMemberId(memberId);
+        return reviews;
     }
 }

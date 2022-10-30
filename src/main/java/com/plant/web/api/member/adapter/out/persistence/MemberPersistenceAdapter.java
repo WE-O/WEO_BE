@@ -206,4 +206,23 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
                         .and(B.bookmarkId.eq(bookmarkId)))
                 .execute();
     }
+
+    /**
+     * 회원별 리뷰 리스트 조회
+     * @param memberId
+     * @return
+     */
+    public List<ReviewDTO> findReviewsByMemberId(String memberId) {
+        log.info("회원별 리뷰 리스트 조회");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QReview R = new QReview("R");
+        QPlace P = new QPlace("P");
+
+        return queryFactory.select(Projections.bean(ReviewDTO.class, R.reviewId, R.member.memberId, P.placeName, R.comment, R.regDate))
+                .from(R)
+                .join(P).on(R.place.placeId.eq(P.placeId))
+                .where(R.member.memberId.eq(memberId))
+                .fetch();
+    }
+
 }

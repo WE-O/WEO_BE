@@ -104,4 +104,15 @@ public class MemberController {
         return ResponseEntity.ok(modifyBookmark);
     }
 
+    /**
+     * 회원별 리뷰 리스트 조회
+     * @param memberId
+     * @return
+     */
+    @GetMapping(value = "/review/{memberId}")
+    @Operation(summary = "회원별 리뷰 리스트 조회")
+    public ResponseEntity<?> findReviewsByMemberId(@PathVariable(value = "memberId") String memberId) {
+        List reviews = memberInPort.findReviewsByMemberId(memberId);
+        return ResponseEntity.ok(reviews);
+    }
 }
