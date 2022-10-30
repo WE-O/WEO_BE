@@ -64,4 +64,12 @@ public interface MemberPersistenceOutPort {
      */
     List findBookmarksByMemberId(String memberId);
 
+    /**
+     * 북마크 수정
+     * @param memberId
+     * @param bookmarkId
+     * @param memo
+     * @return
+     */
+    Long modifyBookmark(String memberId, String bookmarkId, String memo);
 }

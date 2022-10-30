@@ -86,4 +86,22 @@ public class MemberController {
         return ResponseEntity.ok(bookmarks);
     }
 
+    /**
+     * 북마크 수정
+     * @param memberId
+     * @param bookmarkId
+     * @param memo
+     * @return
+     */
+    @PutMapping(value = "/bookmark/{memberId}")
+    @Operation(summary = "회원별 북마크 수정")
+    public ResponseEntity<?> modifyBookmark(
+            @PathVariable(value = "memberId") String memberId
+            , @RequestParam("bookmarkId") String bookmarkId
+            , @RequestParam("memo") String memo) {
+
+        Long modifyBookmark = memberInPort.modifyBookmark(memberId, bookmarkId, memo);
+        return ResponseEntity.ok(modifyBookmark);
+    }
+
 }

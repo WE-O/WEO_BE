@@ -168,4 +168,16 @@ public class MemberService implements MemberInPort {
         List bookmarks = memberPersistenceOutPort.findBookmarksByMemberId(memberId);
         return bookmarks;
     }
+
+    /**
+     * 북마크 수정
+     * @param memberId
+     * @param bookmarkId
+     * @param memo
+     * @return
+     */
+    public Long modifyBookmark(String memberId, String bookmarkId, String memo) {
+        log.info("북마크 수정");
+        return memberPersistenceOutPort.modifyBookmark(memberId, bookmarkId, memo);
+    }
 }

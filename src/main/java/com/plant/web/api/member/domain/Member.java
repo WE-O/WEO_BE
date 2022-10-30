@@ -44,6 +44,4 @@ public class Member {
     @Column(name = "del_yn")
     private char delYn;
 
-    @OneToMany(mappedBy = "member") //조회만 가능
-    private List<Bookmark> bookmarks = new ArrayList<>();
 }

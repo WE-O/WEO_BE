@@ -180,7 +180,7 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QBookmark B = new QBookmark("B");
         QPlace P = new QPlace("P");
-        
+
         return queryFactory.select(Projections.bean(BookmarkDTO.class, B.bookmarkId, B.member.memberId, P.placeName, P.roadAddressName, B.memo))
                 .from(B)
                 .join(P).on(B.place.placeId.eq(P.placeId))
@@ -188,4 +188,22 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
                 .fetch();
     }
 
+    /**
+     * 북마크 수정
+     * @param memberId
+     * @param bookmarkId
+     * @param memo
+     * @return
+     */
+    public Long modifyBookmark(String memberId, String bookmarkId, String memo) {
+        log.info("북마크 수정");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QBookmark B = new QBookmark("B");
+
+        return queryFactory.update(B)
+                .set(B.memo, memo)
+                .where(B.member.memberId.eq(memberId)
+                        .and(B.bookmarkId.eq(bookmarkId)))
+                .execute();
+    }
 }

@@ -16,4 +16,6 @@ public interface MemberInPort {
     Long modifyNickname(String memberId, String nickname);
 
     List findBookmarksByMemberId(String memberId);
+
+    Long modifyBookmark(String memberId, String bookmarkId, String memo);
 }
