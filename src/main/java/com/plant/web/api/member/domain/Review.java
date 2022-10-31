@@ -25,8 +25,8 @@ public class Review {
     @JoinColumn(name = "place_id")
     private Place place;
 
-    @Column(name = "comment")
-    private String comment;
+    @Column(name = "contents")
+    private String contents;
 
     @Column(name = "reg_date")
     private LocalDateTime regDate;

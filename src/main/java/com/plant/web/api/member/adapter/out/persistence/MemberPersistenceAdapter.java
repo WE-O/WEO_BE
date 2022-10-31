@@ -218,11 +218,20 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
         QReview R = new QReview("R");
         QPlace P = new QPlace("P");
 
-        return queryFactory.select(Projections.bean(ReviewDTO.class, R.reviewId, R.member.memberId, P.placeName, R.comment, R.regDate))
+        return queryFactory.select(Projections.bean(ReviewDTO.class, R.reviewId, R.member.memberId, P.placeName, R.contents, R.regDate))
                 .from(R)
                 .join(P).on(R.place.placeId.eq(P.placeId))
                 .where(R.member.memberId.eq(memberId))
                 .fetch();
+    }
+
+    /**
+     * 리뷰 등록
+     * @param review
+     */
+    public void saveReview(Review review) {
+        log.info("리뷰 등록");
+        em.persist(review);
     }
 
 }
