@@ -10,7 +10,7 @@ public class ReviewDTO {
 
     private String reviewId;
 
-    private Member memberId;
+    private String memberId;
 
     private String placeName;
 
