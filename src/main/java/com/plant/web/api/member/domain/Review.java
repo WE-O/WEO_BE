@@ -25,6 +25,7 @@ public class Review {
     @JoinColumn(name = "place_id")
     private Place place;
 
+    @Lob
     @Column(name = "contents")
     private String contents;
 
