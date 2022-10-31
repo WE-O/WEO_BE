@@ -20,7 +20,7 @@ public class PlaceController {
     }
 
     @GetMapping
-    @ApiParam(name = "검색단어",value = "keyword")
+    @ApiParam(name = "검색단어",value = "검색단어")
     @Operation(summary = "지도 검색", description = "메인페이지에서 지도 검색")
     public ResponseEntity<?> Places(@RequestParam(name = "keyword") String keyword){
         JSONObject response = placeInPort.getPlaces(keyword);
@@ -28,7 +28,7 @@ public class PlaceController {
     }
 
     @GetMapping("/{id}")
-    @ApiParam(name = "상품Id",value = "id")
+    @ApiParam(name = "상품Id",value = "상품Id")
     @Operation(summary = "상세 조회", description = "해당 정보 상세 조회")
     public ResponseEntity<?> PlaceDetails(@PathVariable(name = "id") String id){
         Place response = placeInPort.getPlaceDetails(id);
