@@ -26,13 +26,13 @@ public class PlaceService implements PlaceInPort {
     }
 
     @Override
-    public JSONObject getPlaces(String keyword, String loginCheck) {
+    public JSONObject getPlaces(String keyword) {
         JSONObject getPlaces = savePlace(keyword);
         return getPlaces;
     }
 
     @Override
-    public Place getPlaceDetails(String id, String loginCheck) {
+    public Place getPlaceDetails(String id) {
         Place place = placePersistenceOutPort.getByPlaceId(id);
         return place;
     }
