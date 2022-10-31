@@ -14,7 +14,7 @@ public class ReviewDTO {
 
     private String placeName;
 
-    private String comment;
+    private String contents;
 
     private LocalDateTime regDate;
 }
