@@ -128,12 +128,12 @@ public class MemberService implements MemberInPort {
             JsonObject naverAccount = element.getAsJsonObject().get("response").getAsJsonObject();
             String memberId = naverAccount.getAsJsonObject().get("id").getAsString();
             String email = naverAccount.getAsJsonObject().get("email").getAsString();
-//            String profileImg = naverAccount.getAsJsonObject().get("profile_image").getAsString();
+            String profileImg = naverAccount.getAsJsonObject().get("profile_image").getAsString();
 
             member.setSnsType(snsType);
             member.setMemberId(memberId);
             member.setEmail(email);
-//            member.setProfileImg(profileImg);
+            member.setProfileImg(profileImg);
 
             System.out.println("naver memberInfo = " + resultMap);
         }
