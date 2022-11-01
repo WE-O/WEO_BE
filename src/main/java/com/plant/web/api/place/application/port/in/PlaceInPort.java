@@ -4,8 +4,8 @@ import com.plant.web.api.place.domain.Place;
 import org.json.simple.JSONObject;
 
 public interface PlaceInPort {
-    JSONObject getPlaces(String keyword, String loginCheck);
+    JSONObject getPlaces(String keyword);
 
-    Place getPlaceDetails(String id, String loginCheck);
+    Place getPlaceDetails(String id);
 
 }

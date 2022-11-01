@@ -10,11 +10,11 @@ public class ReviewDTO {
 
     private String reviewId;
 
-    private Member memberId;
+    private String memberId;
 
     private String placeName;
 
-    private String comment;
+    private String contents;
 
     private LocalDateTime regDate;
 }
