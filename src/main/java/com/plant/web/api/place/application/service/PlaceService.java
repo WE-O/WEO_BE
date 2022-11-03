@@ -9,6 +9,8 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,8 @@ public class PlaceService implements PlaceInPort {
     @Override
     public Place getPlaceDetails(String id) {
         Place place = placePersistenceOutPort.getByPlaceId(id);
+//        place.setViews(place.getViews() + 1);
+        placePersistenceOutPort.save(place);
         return place;
     }
 
@@ -41,7 +45,8 @@ public class PlaceService implements PlaceInPort {
      * 카카오 API 에서 받아오는 데이터가 없을경우 저장
      * */
     private JSONObject savePlace(String keyword) {
-        JSONObject kakaoPlace = placePersistenceOutPort.getKakaoPlace(keyword);
+        String changKeyword = keyword.replaceAll("\\s", "");
+        JSONObject kakaoPlace = placePersistenceOutPort.getKakaoPlace(changKeyword);
         List<String> list = (List<String>) kakaoPlace.get("documents");
         JSONArray jsonArray = new JSONArray();
         JSONArray resultJsonArr = new JSONArray();
