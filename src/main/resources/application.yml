@@ -5,9 +5,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://pg-c6psj.vpc-pub-cdb-kr.ntruss.com:5432/postgres
-    username: admin
-    password: postgres123!
+    url: jdbc:postgresql://101.101.216.8:5432/postgres
+    username: postgres
+    password: siksikmulmul123!
     driver-class-name: org.postgresql.Driver
   mvc:
     pathmatch:

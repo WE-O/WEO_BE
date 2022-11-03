@@ -9,6 +9,11 @@ import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequestMapping("/api/v1/places")
 @Api(tags = {"지도 검색 조회 API"})
@@ -30,8 +35,8 @@ public class PlaceController {
     @GetMapping("/{id}")
     @ApiParam(name = "상품Id",value = "상품Id")
     @Operation(summary = "상세 조회", description = "해당 정보 상세 조회")
-    public ResponseEntity<?> PlaceDetails(@PathVariable(name = "id") String id){
-        Place response = placeInPort.getPlaceDetails(id);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<?> PlaceDetails(@PathVariable(name = "id") String id) {
+        Place place = placeInPort.getPlaceDetails(id);
+        return ResponseEntity.ok(place);
     }
 }
