@@ -37,7 +37,7 @@ public class PlaceService implements PlaceInPort {
     public Place getPlaceDetails(String id) {
         Place place = placePersistenceOutPort.getByPlaceId(id);
 //        place.setViews(place.getViews() + 1);
-        placePersistenceOutPort.save(place);
+//        placePersistenceOutPort.save(place);
         return place;
     }
 
