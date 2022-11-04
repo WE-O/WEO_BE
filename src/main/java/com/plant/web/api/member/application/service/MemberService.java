@@ -174,6 +174,7 @@ public class MemberService implements MemberInPort {
         //북마크 개수, 리뷰 개수, 장소제보 개수
         //스크랩 리스트
         Member memberInfo = memberPersistenceOutPort.findByMemberId(memberId);
+        member.setMemberId(memberInfo.getMemberId());
         member.setNickname(memberInfo.getNickname());
         member.setEmail(memberInfo.getEmail());
         member.setProfileImg(memberInfo.getProfileImg());
