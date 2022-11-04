@@ -1,7 +1,7 @@
 package com.plant.web.api.bookmark.adapter.out.persistence;
 
 import com.plant.web.api.bookmark.application.port.out.BookmarkPersistenceOutPort;
-import com.plant.web.api.bookmark.domain.BookmarkDTO;
+import com.plant.web.api.bookmark.dto.BookmarkDTO;
 import com.plant.web.api.bookmark.domain.QBookmark;
 import com.plant.web.api.place.domain.QPlace;
 import com.querydsl.core.types.Projections;

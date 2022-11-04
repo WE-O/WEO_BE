@@ -1,4 +1,4 @@
-package com.plant.web.api.review.domain;
+package com.plant.web.api.review.dto;
 
 import com.plant.web.api.place.domain.Place;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.plant.web.api.bookmark.domain;
+package com.plant.web.api.bookmark.dto;
 
 import com.plant.web.api.place.domain.Place;
 import lombok.Data;

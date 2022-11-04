@@ -1,6 +1,6 @@
-package com.plant.web.api.review.adapter.in.controller;
+package com.plant.web.api.scrap.adapter.in.controller;
 
-import com.plant.web.api.review.application.port.in.ReviewInPort;
+import com.plant.web.api.scrap.application.port.in.ScrapInPort;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -16,22 +16,16 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1/review")
-@Api(tags = {"리뷰 관련 API"})
-public class ReviewController {
+@RequestMapping(value = "/api/v1/scrap")
+@Api(tags = {"스크랩 관련 API"})
+public class ScrapController {
 
-    private final ReviewInPort reviewInPort;
+    private final ScrapInPort scrapInPort;
 
-    /**
-     * 회원별 리뷰 리스트 조회
-     * @param memberId
-     * @return
-     */
     @GetMapping(value = "/{memberId}")
-    @Operation(summary = "회원별 리뷰 리스트 조회")
+    @Operation(summary = "회원별 스크랩 리스트 조회")
     public ResponseEntity<?> findReviewsByMemberId(@PathVariable(value = "memberId") String memberId) {
-        List reviews = reviewInPort.findReviewsByMemberId(memberId);
+        List reviews = scrapInPort.findScrapsByMemberId(memberId);
         return ResponseEntity.ok(reviews);
     }
-
 }

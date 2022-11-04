@@ -3,13 +3,14 @@ package com.plant.web.api.member.application.service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.plant.web.api.bookmark.application.port.out.BookmarkPersistenceOutPort;
 import com.plant.web.api.member.application.port.in.MemberInPort;
 import com.plant.web.api.member.application.port.out.MemberPersistenceOutPort;
-import com.plant.web.api.bookmark.domain.Bookmark;
 import com.plant.web.api.member.domain.Member;
-import com.plant.web.api.review.domain.ReviewDTO;
+import com.plant.web.api.member.dto.MemberDTO;
+import com.plant.web.api.review.application.port.out.ReviewPersistenceOutPort;
+import com.plant.web.api.scrap.application.port.out.ScrapPersistenceOutPort;
 import com.plant.web.config.utill.RandomNickname;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,19 @@ import java.util.List;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 public class MemberService implements MemberInPort {
 
     private final MemberPersistenceOutPort memberPersistenceOutPort;
+    private final BookmarkPersistenceOutPort bookmarkPersistenceOutPort;
+    private final ReviewPersistenceOutPort reviewPersistenceOutPort;
+    private final ScrapPersistenceOutPort scrapPersistenceOutPort;
+
+    public MemberService(MemberPersistenceOutPort memberPersistenceOutPort, BookmarkPersistenceOutPort bookmarkPersistenceOutPort, ReviewPersistenceOutPort reviewPersistenceOutPort, ScrapPersistenceOutPort scrapPersistenceOutPort) {
+        this.memberPersistenceOutPort = memberPersistenceOutPort;
+        this.bookmarkPersistenceOutPort = bookmarkPersistenceOutPort;
+        this.reviewPersistenceOutPort = reviewPersistenceOutPort;
+        this.scrapPersistenceOutPort = scrapPersistenceOutPort;
+    }
 
     /**
      * 회원 가입
@@ -152,7 +162,37 @@ public class MemberService implements MemberInPort {
         }
     }
 
+    /**
+     * 마이페이지 정보 조회
+     * @param memberId
+     * @return
+     */
+    public MemberDTO getMyPage(String memberId) {
+        log.info("마이페이지 정보 조회");
+        MemberDTO member = new MemberDTO();
+        //프로필이미지, 닉네임, 이메일
+        //북마크 개수, 리뷰 개수, 장소제보 개수
+        //스크랩 리스트
+        Member memberInfo = memberPersistenceOutPort.findByMemberId(memberId);
+        member.setNickname(memberInfo.getNickname());
+        member.setEmail(memberInfo.getEmail());
+        member.setProfileImg(memberInfo.getProfileImg());
 
+        int bookmarkCnt = bookmarkPersistenceOutPort.findBookmarksByMemberId(memberId).size();
+        member.setBookmarkCnt(bookmarkCnt);
 
+        int reviewCnt = reviewPersistenceOutPort.findReviewsByMemberId(memberId).size();
+        member.setReviewCnt(reviewCnt);
+        
+        //장소제보 추후 개발 후 수정 예정
+        member.setReportCnt(0);
+
+        //스크랩 리스트 작업
+        List scrapList = scrapPersistenceOutPort.findScrapsByMemberId(memberId);
+
+        member.setScrapList(scrapList);
+
+        return member;
+    }
 
 }

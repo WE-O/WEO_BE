@@ -1,12 +1,7 @@
 package com.plant.web.api.member.adapter.out.persistence;
 
-import com.plant.web.api.bookmark.domain.BookmarkDTO;
 import com.plant.web.api.member.application.port.out.MemberPersistenceOutPort;
 import com.plant.web.api.member.domain.*;
-import com.plant.web.api.place.domain.QPlace;
-import com.plant.web.api.review.domain.Review;
-import com.plant.web.api.review.domain.ReviewDTO;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

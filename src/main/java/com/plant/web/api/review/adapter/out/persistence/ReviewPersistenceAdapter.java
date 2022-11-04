@@ -4,7 +4,7 @@ import com.plant.web.api.place.domain.QPlace;
 import com.plant.web.api.review.application.port.out.ReviewPersistenceOutPort;
 import com.plant.web.api.review.domain.QReview;
 import com.plant.web.api.review.domain.Review;
-import com.plant.web.api.review.domain.ReviewDTO;
+import com.plant.web.api.review.dto.ReviewDTO;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

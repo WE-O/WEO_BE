@@ -2,7 +2,7 @@ package com.plant.web.api.review.application.service;
 
 import com.plant.web.api.review.application.port.in.ReviewInPort;
 import com.plant.web.api.review.application.port.out.ReviewPersistenceOutPort;
-import com.plant.web.api.review.domain.ReviewDTO;
+import com.plant.web.api.review.dto.ReviewDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

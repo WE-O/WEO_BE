@@ -2,6 +2,7 @@ package com.plant.web.api.member.adapter.in.controller;
 
 import com.plant.web.api.member.application.port.in.MemberInPort;
 import com.plant.web.api.member.domain.Member;
+import com.plant.web.api.member.dto.MemberDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -95,5 +96,15 @@ public class MemberController {
         return ResponseEntity.ok(count);
     }
 
-
+    /**
+     * 마이페이지 정보 조회
+     * @param memberId
+     * @return
+     */
+    @GetMapping(value = "/mypage/{memberId}")
+    @Operation(summary = "마이페이지 정보 조회")
+    public ResponseEntity<?> getMyPage(@PathVariable(value = "memberId") String memberId) {
+        MemberDTO member = memberInPort.getMyPage(memberId);
+        return ResponseEntity.ok(member);
+    }
 }

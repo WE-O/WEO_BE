@@ -25,7 +25,7 @@ public class BookmarkController {
      * @param memberId
      * @return
      */
-    @GetMapping(value = "/bookmark/{memberId}")
+    @GetMapping(value = "/{memberId}")
     @Operation(summary = "회원별 북마크 리스트 조회")
     public ResponseEntity<?> findBookmarksByMemberId(@PathVariable(value = "memberId") String memberId) {
         List bookmarks = bookmarkInPort.findBookmarksByMemberId(memberId);
@@ -39,7 +39,7 @@ public class BookmarkController {
      * @param memo
      * @return
      */
-    @PutMapping(value = "/bookmark/{memberId}")
+    @PutMapping(value = "/{memberId}")
     @Operation(summary = "회원별 북마크 수정")
     public ResponseEntity<?> modifyBookmark(
             @PathVariable(value = "memberId") String memberId
