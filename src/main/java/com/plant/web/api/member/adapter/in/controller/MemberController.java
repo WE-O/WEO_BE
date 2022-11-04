@@ -84,6 +84,12 @@ public class MemberController {
      */
     @PutMapping(value = "/nickname")
     @Operation(summary = "닉네임 수정")
+    @ApiImplicitParam(
+            name = "nickname"
+            , value = "수정할 닉네임"
+            , required = true
+            , dataType = "string"
+    )
     public ResponseEntity<?> modifyNickname(@RequestParam("memberId") String memberId, @RequestParam("nickname") String nickname) {
         Long count = memberInPort.modifyNickname(memberId, nickname);
         return ResponseEntity.ok(count);
