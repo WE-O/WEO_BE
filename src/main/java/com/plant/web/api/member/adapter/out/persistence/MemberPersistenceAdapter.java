@@ -1,10 +1,11 @@
 package com.plant.web.api.member.adapter.out.persistence;
 
-import com.google.gson.JsonObject;
+import com.plant.web.api.bookmark.domain.BookmarkDTO;
 import com.plant.web.api.member.application.port.out.MemberPersistenceOutPort;
 import com.plant.web.api.member.domain.*;
 import com.plant.web.api.place.domain.QPlace;
-import com.querydsl.core.Tuple;
+import com.plant.web.api.review.domain.Review;
+import com.plant.web.api.review.domain.ReviewDTO;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +18,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityManager;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Slf4j

@@ -1,13 +1,10 @@
 package com.plant.web.api.member.application.port.out;
 
-import com.google.gson.JsonObject;
-import com.plant.web.api.member.domain.Bookmark;
 import com.plant.web.api.member.domain.Member;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface MemberPersistenceOutPort {

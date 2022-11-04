@@ -1,27 +1,19 @@
 package com.plant.web.api.member.application.service;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.plant.web.api.member.application.port.in.MemberInPort;
 import com.plant.web.api.member.application.port.out.MemberPersistenceOutPort;
-import com.plant.web.api.member.domain.Bookmark;
+import com.plant.web.api.bookmark.domain.Bookmark;
 import com.plant.web.api.member.domain.Member;
-import com.plant.web.api.member.domain.Review;
-import com.plant.web.api.member.domain.ReviewDTO;
+import com.plant.web.api.review.domain.ReviewDTO;
 import com.plant.web.config.utill.RandomNickname;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
-import javax.swing.text.html.parser.Entity;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service

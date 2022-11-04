@@ -1,5 +1,6 @@
-package com.plant.web.api.member.domain;
+package com.plant.web.api.review.domain;
 
+import com.plant.web.api.member.domain.Member;
 import com.plant.web.api.place.domain.Place;
 import lombok.Getter;
 import lombok.Setter;
