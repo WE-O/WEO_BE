@@ -53,27 +53,4 @@ public interface MemberPersistenceOutPort {
      * @return
      */
     Long modifyNickname(String memberId, String nickname);
-
-    /**
-     * 회원별 북마크 리스트 조회
-     * @param memberId
-     * @return
-     */
-    List findBookmarksByMemberId(String memberId);
-
-    /**
-     * 북마크 수정
-     * @param memberId
-     * @param bookmarkId
-     * @param memo
-     * @return
-     */
-    Long modifyBookmark(String memberId, String bookmarkId, String memo);
-
-    /**
-     * 회원별 리뷰 리스트 조회
-     * @param memberId
-     * @return
-     */
-    List findReviewsByMemberId(String memberId);
 }

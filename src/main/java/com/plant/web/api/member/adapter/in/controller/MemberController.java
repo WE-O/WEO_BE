@@ -96,45 +96,4 @@ public class MemberController {
     }
 
 
-    /**
-     * 회원별 북마크 리스트 조회
-     * @param memberId
-     * @return
-     */
-    @GetMapping(value = "/bookmark/{memberId}")
-    @Operation(summary = "회원별 북마크 리스트 조회")
-    public ResponseEntity<?> findBookmarksByMemberId(@PathVariable(value = "memberId") String memberId) {
-        List bookmarks = memberInPort.findBookmarksByMemberId(memberId);
-        return ResponseEntity.ok(bookmarks);
-    }
-
-    /**
-     * 북마크 수정
-     * @param memberId
-     * @param bookmarkId
-     * @param memo
-     * @return
-     */
-    @PutMapping(value = "/bookmark/{memberId}")
-    @Operation(summary = "회원별 북마크 수정")
-    public ResponseEntity<?> modifyBookmark(
-            @PathVariable(value = "memberId") String memberId
-            , @RequestParam("bookmarkId") String bookmarkId
-            , @RequestParam("memo") String memo) {
-
-        Long modifyBookmark = memberInPort.modifyBookmark(memberId, bookmarkId, memo);
-        return ResponseEntity.ok(modifyBookmark);
-    }
-
-    /**
-     * 회원별 리뷰 리스트 조회
-     * @param memberId
-     * @return
-     */
-    @GetMapping(value = "/review/{memberId}")
-    @Operation(summary = "회원별 리뷰 리스트 조회")
-    public ResponseEntity<?> findReviewsByMemberId(@PathVariable(value = "memberId") String memberId) {
-        List reviews = memberInPort.findReviewsByMemberId(memberId);
-        return ResponseEntity.ok(reviews);
-    }
 }
