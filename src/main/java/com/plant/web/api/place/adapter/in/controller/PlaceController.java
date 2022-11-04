@@ -35,8 +35,8 @@ public class PlaceController {
     @GetMapping("/{id}")
     @ApiParam(name = "상품Id",value = "상품Id")
     @Operation(summary = "상세 조회", description = "해당 정보 상세 조회")
-    public ResponseEntity<?> PlaceDetails(@PathVariable(name = "id") String id) {
-        Place place = placeInPort.getPlaceDetails(id);
+    public ResponseEntity<?> PlaceDetails(@PathVariable(name = "id") String id, HttpServletRequest request, HttpServletResponse response) {
+        Place place = placeInPort.getPlaceDetails(id, request, response);
         return ResponseEntity.ok(place);
     }
 }

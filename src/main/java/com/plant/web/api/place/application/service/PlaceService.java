@@ -9,12 +9,10 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -34,10 +32,18 @@ public class PlaceService implements PlaceInPort {
     }
 
     @Override
-    public Place getPlaceDetails(String id) {
+    public Place getPlaceDetails(String id, HttpServletRequest request, HttpServletResponse response) {
+        Place outPortByPlace = placePersistenceOutPort.getByPlaceId(id);
+        Cookie[] cookies = request.getCookies();
+        if(cookies.length != 0) {
+            for (Cookie cookie : cookies) {
+                log.info("coolie.getName" + cookie.getName());
+                log.info("coolie.getValue" + cookie.getValue());
+            }
+        }
+//        outPortByPlace.setViews(outPortByPlace.getViews() + 1);
+//        placePersistenceOutPort.save(outPortByPlace);
         Place place = placePersistenceOutPort.getByPlaceId(id);
-//        place.setViews(place.getViews() + 1);
-//        placePersistenceOutPort.save(place);
         return place;
     }
 
@@ -52,14 +58,12 @@ public class PlaceService implements PlaceInPort {
         JSONArray resultJsonArr = new JSONArray();
         JSONObject result = new JSONObject();
         //리팩토링
-        for(int i = 0; i < list.size(); i++){
+        for(int i = 0; i < list.size(); i++) {
             jsonArray.add(list.get(i));
         }
-
-        for(int i = 0; i < jsonArray.size(); i++){
+        for(int i = 0; i < list.size(); i++){
             Map<String ,Object> map = (Map<String, Object>) jsonArray.get(i);
-            Optional<Long> idIndex = placePersistenceOutPort.countByPlaceId(map.get("id").toString());
-
+            Optional<Long> idIndex = placePersistenceOutPort.countByPlaceId((String) map.get("id"));
             if(idIndex.get() < 1){
                 Place board = new Place();
                 board.setAddressName((String) map.get("address_name"));
@@ -80,8 +84,8 @@ public class PlaceService implements PlaceInPort {
 //                Optional<Board> saveBoard = boardPersistenceOutPort.save(board);
                 placePersistenceOutPort.save(board);
             } else {
-                int view = placePersistenceOutPort.getByViews(map.get("id").toString());
-                int review = placePersistenceOutPort.getByReviews(map.get("id").toString());
+                int view = placePersistenceOutPort.getByViews((String) map.get("id"));
+                int review = placePersistenceOutPort.getByReviews((String) map.get("id"));
                 Map<String ,Object> resultMap = new HashMap<>();
 
                 resultMap.put("view", view);

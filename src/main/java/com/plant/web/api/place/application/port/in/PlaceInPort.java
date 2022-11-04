@@ -9,6 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 public interface PlaceInPort {
     JSONObject getPlaces(String keyword);
 
-    Place getPlaceDetails(String id);
+    Place getPlaceDetails(String id, HttpServletRequest request, HttpServletResponse response);
 
 }
