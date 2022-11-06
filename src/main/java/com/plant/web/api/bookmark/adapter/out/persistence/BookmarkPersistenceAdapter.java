@@ -34,7 +34,7 @@ public class BookmarkPersistenceAdapter implements BookmarkPersistenceOutPort {
         QBookmark B = new QBookmark("B");
         QPlace P = new QPlace("P");
 
-        return queryFactory.select(Projections.bean(BookmarkDTO.class, B.bookmarkId, B.member.memberId, P.placeName, P.roadAddressName, B.memo))
+        return queryFactory.select(Projections.bean(BookmarkDTO.class, B.bookmarkId, B.member.memberId, P.placeId, P.placeName, P.roadAddressName, B.memo))
                 .from(B)
                 .join(P).on(B.place.placeId.eq(P.placeId))
                 .where(B.member.memberId.eq(memberId))

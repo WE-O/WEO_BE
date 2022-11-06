@@ -10,6 +10,8 @@ public class BookmarkDTO {
 
     private String memberId;
 
+    private String placeId;
+
     private String placeName;
 
     private String roadAddressName;
