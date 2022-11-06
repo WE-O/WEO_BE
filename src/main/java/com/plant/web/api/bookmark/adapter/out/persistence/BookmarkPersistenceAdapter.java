@@ -48,7 +48,7 @@ public class BookmarkPersistenceAdapter implements BookmarkPersistenceOutPort {
      * @param memo
      * @return
      */
-    public Long modifyBookmark(String memberId, String bookmarkId, String memo) {
+    public Long modifyBookmark(String memberId, Long bookmarkId, String memo) {
         log.info("북마크 수정");
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QBookmark B = new QBookmark("B");

@@ -2,12 +2,16 @@ package com.plant.web.api.scrap.dto;
 
 import lombok.Data;
 
+import java.math.BigInteger;
+
 @Data
 public class ScrapDTO {
 
-    private String scrapId;
+    private Long scrapId;
 
-    private String memberId;
+    private Long contentsId;
 
-    private String contentsId;
+    private String title;
+
+    private String img;
 }

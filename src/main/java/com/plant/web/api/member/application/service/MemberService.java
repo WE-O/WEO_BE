@@ -178,6 +178,7 @@ public class MemberService implements MemberInPort {
         member.setNickname(memberInfo.getNickname());
         member.setEmail(memberInfo.getEmail());
         member.setProfileImg(memberInfo.getProfileImg());
+        member.setSnsType(memberInfo.getSnsType());
 
         int bookmarkCnt = bookmarkPersistenceOutPort.findBookmarksByMemberId(memberId).size();
         member.setBookmarkCnt(bookmarkCnt);

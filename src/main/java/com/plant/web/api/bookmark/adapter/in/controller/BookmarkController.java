@@ -43,7 +43,7 @@ public class BookmarkController {
     @Operation(summary = "회원별 북마크 수정")
     public ResponseEntity<?> modifyBookmark(
             @PathVariable(value = "memberId") String memberId
-            , @RequestParam("bookmarkId") String bookmarkId
+            , @RequestParam("bookmarkId") Long bookmarkId
             , @RequestParam("memo") String memo) {
 
         Long modifyBookmark = bookmarkInPort.modifyBookmark(memberId, bookmarkId, memo);

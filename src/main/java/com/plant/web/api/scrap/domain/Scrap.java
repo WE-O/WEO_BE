@@ -12,9 +12,9 @@ import javax.persistence.*;
 @Getter @Setter
 public class Scrap {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "scrap_id")
-    private String scrapId;
+    private Long scrapId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

@@ -25,7 +25,7 @@ public class ScrapController {
     @GetMapping(value = "/{memberId}")
     @Operation(summary = "회원별 스크랩 리스트 조회")
     public ResponseEntity<?> findReviewsByMemberId(@PathVariable(value = "memberId") String memberId) {
-        List reviews = scrapInPort.findScrapsByMemberId(memberId);
-        return ResponseEntity.ok(reviews);
+        List scraps = scrapInPort.findScrapsByMemberId(memberId);
+        return ResponseEntity.ok(scraps);
     }
 }

@@ -15,9 +15,9 @@ import java.util.List;
 @Setter
 public class Bookmark {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bookmark_id")
-    private String bookmarkId;
+    private Long bookmarkId;
 
     @ManyToOne(fetch = FetchType.LAZY)  //연관관계의 주인. 값은 여기서 넣음
     @JoinColumn(name = "member_id")

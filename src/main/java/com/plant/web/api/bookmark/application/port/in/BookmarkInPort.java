@@ -6,5 +6,5 @@ public interface BookmarkInPort {
 
     List findBookmarksByMemberId(String memberId);
 
-    Long modifyBookmark(String memberId, String bookmarkId, String memo);
+    Long modifyBookmark(String memberId, Long bookmarkId, String memo);
 }

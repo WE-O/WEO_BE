@@ -6,6 +6,7 @@ import com.plant.web.api.review.dto.ReviewDTO;
 import com.plant.web.api.scrap.adapter.out.persistence.ScrapPersistenceAdapter;
 import com.plant.web.api.scrap.application.port.in.ScrapInPort;
 import com.plant.web.api.scrap.application.port.out.ScrapPersistenceOutPort;
+import com.plant.web.api.scrap.dto.ScrapDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class ScrapService implements ScrapInPort {
      * @param memberId
      * @return
      */
-    public List<ReviewDTO> findScrapsByMemberId(String memberId) {
+    public List<ScrapDTO> findScrapsByMemberId(String memberId) {
         log.info(memberId + " 회원의 콘텐츠 스크랩 리스트 조회");
         List scraps = scrapPersistenceOutPort.findScrapsByMemberId(memberId);
         return scraps;

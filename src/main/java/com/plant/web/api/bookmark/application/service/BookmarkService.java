@@ -34,7 +34,7 @@ public class BookmarkService implements BookmarkInPort {
      * @param memo
      * @return
      */
-    public Long modifyBookmark(String memberId, String bookmarkId, String memo) {
+    public Long modifyBookmark(String memberId, Long bookmarkId, String memo) {
         log.info("북마크 수정");
         return bookmarkPersistenceOutPort.modifyBookmark(memberId, bookmarkId, memo);
     }

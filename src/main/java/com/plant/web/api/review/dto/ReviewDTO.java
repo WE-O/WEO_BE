@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 public class ReviewDTO {
 
-    private String reviewId;
+    private Long reviewId;
 
     private String memberId;
 

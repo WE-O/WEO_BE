@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,9 +12,12 @@ import java.time.LocalDateTime;
 @Getter @Setter
 public class Contents {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contents_id")
-    private String contentsId;
+    private Long contentsId;
+
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "detail")
     private String detail;
