@@ -83,6 +83,8 @@ public class PlaceService implements PlaceInPort {
 
 //                Optional<Board> saveBoard = boardPersistenceOutPort.save(board);
                 placePersistenceOutPort.save(board);
+
+                resultJsonArr.add(list.get(0));
             } else {
                 int view = placePersistenceOutPort.getByViews((String) map.get("id"));
                 int review = placePersistenceOutPort.getByReviews((String) map.get("id"));
