@@ -33,14 +33,14 @@ public class PlaceService implements PlaceInPort {
 
     @Override
     public Place getPlaceDetails(String id, HttpServletRequest request, HttpServletResponse response) {
-        Place outPortByPlace = placePersistenceOutPort.getByPlaceId(id);
-        Cookie[] cookies = request.getCookies();
-        if(cookies.length != 0) {
-            for (Cookie cookie : cookies) {
-                log.info("coolie.getName" + cookie.getName());
-                log.info("coolie.getValue" + cookie.getValue());
-            }
-        }
+//        Place outPortByPlace = placePersistenceOutPort.getByPlaceId(id);
+//        Cookie[] cookies = request.getCookies();
+//        if(cookies.length != 0) {
+//            for (Cookie cookie : cookies) {
+//                log.info("coolie.getName" + cookie.getName());
+//                log.info("coolie.getValue" + cookie.getValue());
+//            }
+//        }
 //        outPortByPlace.setViews(outPortByPlace.getViews() + 1);
 //        placePersistenceOutPort.save(outPortByPlace);
         Place place = placePersistenceOutPort.getByPlaceId(id);
