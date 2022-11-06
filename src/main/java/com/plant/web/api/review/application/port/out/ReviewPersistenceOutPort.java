@@ -1,5 +1,9 @@
 package com.plant.web.api.review.application.port.out;
 
+import com.plant.web.api.member.domain.Member;
+import com.plant.web.api.review.domain.Review;
+import com.plant.web.api.review.dto.ReviewDTO;
+
 import java.util.List;
 
 public interface ReviewPersistenceOutPort {
@@ -10,4 +14,9 @@ public interface ReviewPersistenceOutPort {
      * @return
      */
     List findReviewsByMemberId(String memberId);
+
+    /**
+     * 리뷰 등록
+     */
+    void saveReview(Review review);
 }
