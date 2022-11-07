@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@DynamicInsert
 @Entity
 @Table(name="TBL_MEMBER")
 @Getter @Setter

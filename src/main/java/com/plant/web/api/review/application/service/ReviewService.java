@@ -1,5 +1,9 @@
 package com.plant.web.api.review.application.service;
 
+import com.plant.web.api.member.application.port.out.MemberPersistenceOutPort;
+import com.plant.web.api.member.domain.Member;
+import com.plant.web.api.place.application.port.out.PlacePersistenceOutPort;
+import com.plant.web.api.place.domain.Place;
 import com.plant.web.api.review.application.port.in.ReviewInPort;
 import com.plant.web.api.review.application.port.out.ReviewPersistenceOutPort;
 import com.plant.web.api.review.domain.Review;
@@ -16,6 +20,8 @@ import java.util.List;
 public class ReviewService implements ReviewInPort {
 
     private final ReviewPersistenceOutPort reviewPersistenceOutPort;
+    private final MemberPersistenceOutPort memberPersistenceOutPort;
+    private final PlacePersistenceOutPort placePersistenceOutPort;
 
     /**
      * 회원별 리뷰 리스트 조회
@@ -39,12 +45,13 @@ public class ReviewService implements ReviewInPort {
     public Review addReview(String memberId, String placeId, String contents, List<Long> keywords) {
         log.info(memberId + " 회원의 " + placeId + " 장소에 대한 리뷰 등록");
 
-        Review setReview = new Review();
-        //setReview.setMember(memberId);
-        //setReview.setPlaceId(placeId);
-        setReview.setContents(contents);
+        Member member = memberPersistenceOutPort.findByMemberId(memberId);
+        Place place = placePersistenceOutPort.getByPlaceId(placeId);
 
-        //reviewPersistenceOutPort.saveReview(setReview);
+        Review setReview = new Review(member, place, contents);
+        reviewPersistenceOutPort.saveReview(setReview);
+
+
 
         return setReview;
     }
