@@ -1,5 +1,6 @@
 package com.plant.web.api.review.domain;
 
+import com.plant.web.api.keyword.domain.Keyword;
 import com.plant.web.api.member.domain.Member;
 import com.plant.web.api.place.domain.Place;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="TBL_REVIEW")

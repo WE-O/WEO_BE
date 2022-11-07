@@ -1,9 +1,13 @@
 package com.plant.web.api.review.application.service;
 
+import com.plant.web.api.keyword.application.port.out.KeywordPersistenceOutPort;
+import com.plant.web.api.keyword.domain.Keyword;
 import com.plant.web.api.member.application.port.out.MemberPersistenceOutPort;
 import com.plant.web.api.member.domain.Member;
 import com.plant.web.api.place.application.port.out.PlacePersistenceOutPort;
 import com.plant.web.api.place.domain.Place;
+import com.plant.web.api.placeKeyword.application.port.out.PlaceKeywordPersistenceOutPort;
+import com.plant.web.api.placeKeyword.domain.PlaceKeyword;
 import com.plant.web.api.review.application.port.in.ReviewInPort;
 import com.plant.web.api.review.application.port.out.ReviewPersistenceOutPort;
 import com.plant.web.api.review.domain.Review;
@@ -12,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,6 +27,8 @@ public class ReviewService implements ReviewInPort {
     private final ReviewPersistenceOutPort reviewPersistenceOutPort;
     private final MemberPersistenceOutPort memberPersistenceOutPort;
     private final PlacePersistenceOutPort placePersistenceOutPort;
+    private final KeywordPersistenceOutPort keywordPersistenceOutPort;
+    private final PlaceKeywordPersistenceOutPort placeKeywordPersistenceOutPort;
 
     /**
      * 회원별 리뷰 리스트 조회
@@ -51,8 +58,16 @@ public class ReviewService implements ReviewInPort {
         Review setReview = new Review(member, place, contents);
         reviewPersistenceOutPort.saveReview(setReview);
 
+        /*
+        //키워드 등록
+        List<Keyword> setKeywords = new ArrayList<>();
+        for(int i=0; i<keywords.size(); i++) {
+            setKeywords.add(keywordPersistenceOutPort.findByKeywordId(keywords.get(i)));
+        }
 
-
+        PlaceKeyword placeKeyword = new PlaceKeyword(place, setKeywords);
+        placeKeywordPersistenceOutPort.savePlaceKeyword(placeKeyword);
+        */
         return setReview;
     }
 
