@@ -12,7 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -37,12 +40,18 @@ public class PlaceService implements PlaceInPort {
         Cookie[] cookies = request.getCookies();
         if(cookies != null) {
             for (Cookie cookie : cookies) {
-                log.info("coolie.getName" + cookie.getName());
-                log.info("coolie.getValue" + cookie.getValue());
-
+                log.info("cookie.getName = " + cookie.getName());
+                log.info("cookie.getValue = " + cookie.getValue());
+                if (!cookie.getValue().contains(id)) {
+                    cookie.setValue(id);
+                    cookie.setMaxAge(60 * 60 * 24);  /* 쿠키 시간 24시간 */
+                    response.addCookie(cookie);
+                    outPortByPlace.setViews(outPortByPlace.getViews() + 1);
+                    placePersistenceOutPort.save(outPortByPlace);
+                }
             }
         } else {
-            Cookie newCookie = new Cookie("placeId"+outPortByPlace.getPlaceId() , request.getParameter(outPortByPlace.getPlaceId()));
+            Cookie newCookie = new Cookie("placeId_" + outPortByPlace.getPlaceId(), id);
             newCookie.setMaxAge(60 * 60 * 24);
             response.addCookie(newCookie);
             outPortByPlace.setViews(outPortByPlace.getViews() + 1);
