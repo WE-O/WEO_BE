@@ -9,4 +9,6 @@ public interface ReviewInPort {
     List findReviewsByMemberId(String memberId);
 
     Review addReview(String memberId, String placeId, String contents, List<Long> keywords);
+
+    Review modifyReview(String memberId, String placeId, String contents);
 }

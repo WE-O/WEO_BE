@@ -58,27 +58,35 @@ public class ReviewService implements ReviewInPort {
         Review setReview = new Review(member, place, contents);
         reviewPersistenceOutPort.save(setReview);
 
-        /*
         //키워드 등록
-        for(int i=0; i<keywords.size(); i++) {
-            Keyword keyword = keywordPersistenceOutPort.findByKeywordId(keywords.get(i));
-            PlaceKeyword placeKeyword = new PlaceKeyword(place, keyword);
-            placeKeywordPersistenceOutPort.savePlaceKeyword(placeKeyword);
-        }
-
-         */
-
-        List<PlaceKeyword> placeKeywords = new ArrayList<>();
-
+        //List<PlaceKeyword> placeKeywords = new ArrayList<>();
         keywords.forEach(item -> {
             Keyword keyword = keywordPersistenceOutPort.findByKeywordId(item);
             PlaceKeyword placeKeyword = new PlaceKeyword(place, keyword);
-            placeKeywords.add(placeKeyword);
+            //placeKeywords.add(placeKeyword);
+            placeKeywordPersistenceOutPort.save(placeKeyword);
         });
 
-        //placeKeywordPersistenceOutPort.s
-
         return setReview;
+    }
+
+    /**
+     * 리뷰 수정
+     * @param memberId
+     * @param placeId
+     * @param contents
+     * @return
+     */
+    public Review modifyReview(String memberId, String placeId, String contents) {
+        log.info(memberId + " 회원의 " + placeId + " 장소에 대한 리뷰 등록");
+
+        Member member = memberPersistenceOutPort.findByMemberId(memberId);
+        Place place = placePersistenceOutPort.getByPlaceId(placeId);
+
+        Review setReview = new Review(member, place, contents);
+        Review result = reviewPersistenceOutPort.save(setReview);
+
+        return result;
     }
 
 }

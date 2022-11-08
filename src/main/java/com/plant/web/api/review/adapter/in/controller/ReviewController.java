@@ -47,4 +47,18 @@ public class ReviewController {
         Review result = reviewInPort.addReview(memberId, placeId, contents, keywords);
         return ResponseEntity.ok(result);
     }
+
+    /**
+     * 리뷰 수정
+     * @param memberId
+     * @param placeId
+     * @param contents
+     * @return
+     */
+    @PutMapping(value = "/{memberId}")
+    @Operation(summary = "리뷰 수정")
+    public ResponseEntity<?> modifyReview(@PathVariable(value = "memberId") String memberId, @RequestParam("placeId") String placeId, @RequestParam("contents") String contents) {
+        Review result = reviewInPort.modifyReview(memberId, placeId, contents);
+        return ResponseEntity.ok(result);
+    }
 }
