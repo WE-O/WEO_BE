@@ -9,16 +9,16 @@ import java.io.Serializable;
 import java.util.Optional;
 
 public interface PlaceJpaRepository extends JpaRepository<Place, Serializable> {
-    Optional<Long> countByPlaceId(String id);
+    Optional<Long> countByPlaceId(String placeId);
 
     Place save(Place board);
 
     @Query("SELECT views FROM Place WHERE placeId = :placeId")
-    int getByViews(@Param("placeId") String id);
+    int getByViews(@Param("placeId") String placeId);
 
     @Query("SELECT reviews FROM Place WHERE placeId = :placeId")
-    int getByReviews(@Param("placeId") String id);
+    int getByReviews(@Param("placeId") String placeId);
 
-    Place getByPlaceId(String id);
+    Place getByPlaceId(String placeId);
 
 }

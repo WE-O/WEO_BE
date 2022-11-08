@@ -18,4 +18,6 @@ public class BookmarkDTO {
 
     private String memo;
 
+    private String bookmarkYN;
+
 }

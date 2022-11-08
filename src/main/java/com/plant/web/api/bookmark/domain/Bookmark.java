@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="TBL_BOOKMARK")
+@Table(name="TBL_BOOKMARK", uniqueConstraints = @UniqueConstraint(columnNames = {"bookmark_id", "member_id", "place_id"})
+)
 @Getter
 @Setter
 public class Bookmark {
@@ -29,4 +30,7 @@ public class Bookmark {
 
     @Column(name = "memo")
     private String memo;
+
+    @Column(name = "bookmark_yn")
+    private String bookmarkYN;
 }
