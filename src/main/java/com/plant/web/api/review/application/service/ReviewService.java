@@ -56,18 +56,28 @@ public class ReviewService implements ReviewInPort {
         Place place = placePersistenceOutPort.getByPlaceId(placeId);
 
         Review setReview = new Review(member, place, contents);
-        reviewPersistenceOutPort.saveReview(setReview);
+        reviewPersistenceOutPort.save(setReview);
 
         /*
         //키워드 등록
-        List<Keyword> setKeywords = new ArrayList<>();
         for(int i=0; i<keywords.size(); i++) {
-            setKeywords.add(keywordPersistenceOutPort.findByKeywordId(keywords.get(i)));
+            Keyword keyword = keywordPersistenceOutPort.findByKeywordId(keywords.get(i));
+            PlaceKeyword placeKeyword = new PlaceKeyword(place, keyword);
+            placeKeywordPersistenceOutPort.savePlaceKeyword(placeKeyword);
         }
 
-        PlaceKeyword placeKeyword = new PlaceKeyword(place, setKeywords);
-        placeKeywordPersistenceOutPort.savePlaceKeyword(placeKeyword);
-        */
+         */
+
+        List<PlaceKeyword> placeKeywords = new ArrayList<>();
+
+        keywords.forEach(item -> {
+            Keyword keyword = keywordPersistenceOutPort.findByKeywordId(item);
+            PlaceKeyword placeKeyword = new PlaceKeyword(place, keyword);
+            placeKeywords.add(placeKeyword);
+        });
+
+        //placeKeywordPersistenceOutPort.s
+
         return setReview;
     }
 

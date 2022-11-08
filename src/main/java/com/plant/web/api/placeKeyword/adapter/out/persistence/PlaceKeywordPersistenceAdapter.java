@@ -1,7 +1,6 @@
 package com.plant.web.api.placeKeyword.adapter.out.persistence;
 
-import com.plant.web.api.place.application.port.out.PlacePersistenceOutPort;
-import com.plant.web.api.placeKeyword.application.port.in.PlaceKeywordInPort;
+import com.plant.web.api.keyword.domain.Keyword;
 import com.plant.web.api.placeKeyword.application.port.out.PlaceKeywordPersistenceOutPort;
 import com.plant.web.api.placeKeyword.domain.PlaceKeyword;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Slf4j
 @Repository
@@ -18,9 +18,14 @@ import javax.persistence.EntityManager;
 public class PlaceKeywordPersistenceAdapter implements PlaceKeywordPersistenceOutPort {
 
     private final EntityManager em;
+    private final PlaceKeywordJpaRepository placeKeywordJpaRepository;
 
-    public void savePlaceKeyword(PlaceKeyword placeKeyword) {
+    /*
+    public List<Keyword> saveAll(List<Keyword> placeKeywords) {
         log.info("키워드 등록");
-        em.persist(placeKeyword);
+        //em.persist(placeKeyword);
+        //return placeKeywordJpaRepository.saveAll();
     }
+
+     */
 }

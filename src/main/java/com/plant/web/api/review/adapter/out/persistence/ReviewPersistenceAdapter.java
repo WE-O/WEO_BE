@@ -1,6 +1,8 @@
 package com.plant.web.api.review.adapter.out.persistence;
 
 import com.plant.web.api.member.domain.Member;
+import com.plant.web.api.place.adapter.out.persistence.PlaceJpaRepository;
+import com.plant.web.api.place.domain.Place;
 import com.plant.web.api.place.domain.QPlace;
 import com.plant.web.api.review.application.port.out.ReviewPersistenceOutPort;
 import com.plant.web.api.review.domain.QReview;
@@ -23,6 +25,7 @@ import java.util.List;
 public class ReviewPersistenceAdapter implements ReviewPersistenceOutPort {
 
     private final EntityManager em;
+    private final ReviewJpaRepository reviewJpaRepository;
 
     /**
      * 회원별 리뷰 리스트 조회
@@ -46,9 +49,11 @@ public class ReviewPersistenceAdapter implements ReviewPersistenceOutPort {
      * 리뷰등록
      * @param review
      */
-    public void saveReview(Review review) {
+    @Override
+    public Review save(Review review) {
         log.info("리뷰 등록");
-        em.persist(review);
+        //em.persist(review);
+        return reviewJpaRepository.save(review);
     }
 
 }

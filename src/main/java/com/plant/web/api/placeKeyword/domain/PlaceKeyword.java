@@ -31,14 +31,10 @@ public class PlaceKeyword {
     @JoinColumn(name = "keyword_id")
     private Keyword keyword;
 
-    /*
-    private List<Keyword> keywords = new ArrayList<>();
-
     @Builder
-    public PlaceKeyword(Place place, List<Keyword> keywords) {
+    public PlaceKeyword(Place place, Keyword keyword) {
         this.place = place;
-        this.keywords = keywords;
+        this.keyword = keyword;
     }
-    */
 
 }

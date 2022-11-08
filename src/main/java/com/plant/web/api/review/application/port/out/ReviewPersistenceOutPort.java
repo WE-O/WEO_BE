@@ -18,5 +18,5 @@ public interface ReviewPersistenceOutPort {
     /**
      * 리뷰 등록
      */
-    void saveReview(Review review);
+    Review save(Review review);
 }

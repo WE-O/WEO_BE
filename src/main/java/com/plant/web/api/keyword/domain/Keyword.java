@@ -21,4 +21,6 @@ public class Keyword {
     @Column(name = "keyword_name")
     private String keywordName;
 
+    @OneToMany (mappedBy = "keyword")
+    List<PlaceKeyword> keywords = new ArrayList<PlaceKeyword>();
 }
