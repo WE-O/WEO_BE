@@ -60,6 +60,12 @@ public class BookmarkController {
 
     @DeleteMapping(value = "/{memberId}")
     @Operation(summary = "북마크 삭제")
+    @ApiImplicitParam(
+        name = "bookmarks"
+        , value = "삭제할 bookmarkId 리스트. 콤마로 구분 (ex. 1,2)"
+        , required = true
+        , dataType = "List<Long>"
+    )
     public ResponseEntity<?> deleteBookmark(@PathVariable(value = "memberId") String memberId, @RequestParam("bookmarks") List<Long> bookmarks) {
         Long result = bookmarkInPort.deleteBookmark(memberId, bookmarks);
         return ResponseEntity.ok(result);
