@@ -3,6 +3,7 @@ package com.plant.web.api.placeKeyword.adapter.out.persistence;
 import com.plant.web.api.keyword.domain.Keyword;
 import com.plant.web.api.placeKeyword.application.port.out.PlaceKeywordPersistenceOutPort;
 import com.plant.web.api.placeKeyword.domain.PlaceKeyword;
+import com.plant.web.api.review.domain.Review;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -28,4 +29,12 @@ public class PlaceKeywordPersistenceAdapter implements PlaceKeywordPersistenceOu
     }
 
      */
+
+    @Override
+    public PlaceKeyword save(PlaceKeyword placeKeyword) {
+        log.info("리뷰 등록");
+        //em.persist(review);
+        return placeKeywordJpaRepository.save(placeKeyword);
+    }
+
 }

@@ -9,7 +9,8 @@ public interface PlaceKeywordPersistenceOutPort {
 
     /**
      * 키워드 등록
-     * @param placeKeywords
+     * @param placeKeyword
      */
     //List<Keyword> saveAll(List<Keyword> placeKeywords);
+    PlaceKeyword save(PlaceKeyword placeKeyword);
 }
