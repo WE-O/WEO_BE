@@ -70,8 +70,8 @@ public class PlacePersistenceAdapter implements PlacePersistenceOutPort {
     }
 
     @Override
-    public Optional<Long> countByPlaceId(String id) {
-        Optional<Long> result = placeJPARepository.countByPlaceId(id);
+    public Optional<Long> countByPlaceId(String placeId) {
+        Optional<Long> result = placeJPARepository.countByPlaceId(placeId);
         return Optional.of(result.get());
     }
 
@@ -81,17 +81,17 @@ public class PlacePersistenceAdapter implements PlacePersistenceOutPort {
     }
 
     @Override
-    public int getByViews(String id) {
-        return placeJPARepository.getByViews(id);
+    public int getByViews(String placeId) {
+        return placeJPARepository.getByViews(placeId);
     }
 
     @Override
-    public int getByReviews(String id) {
-        return placeJPARepository.getByReviews(id);
+    public int getByReviews(String placeId) {
+        return placeJPARepository.getByReviews(placeId);
     }
 
     @Override
-    public Place getByPlaceId(String id) {
-        return placeJPARepository.getByPlaceId(id);
+    public Place getByPlaceId(String placeId) {
+        return placeJPARepository.getByPlaceId(placeId);
     }
 }

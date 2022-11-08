@@ -19,4 +19,6 @@ public interface BookmarkPersistenceOutPort {
      * @return
      */
     Long modifyBookmark(String memberId, Long bookmarkId, String memo);
+
+    String getBookmarkByBookmarkYN(String placeId, String memberId);
 }

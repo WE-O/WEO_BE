@@ -21,7 +21,7 @@ import java.util.List;
 public class BookmarkPersistenceAdapter implements BookmarkPersistenceOutPort {
 
     private final EntityManager em;
-
+    private final BookmarkJpaRepository bookmarkJpaRepository;
     /**
      * 회원별 북마크 리스트 조회
      * @param memberId
@@ -60,4 +60,8 @@ public class BookmarkPersistenceAdapter implements BookmarkPersistenceOutPort {
                 .execute();
     }
 
+    @Override
+    public String getBookmarkByBookmarkYN(String placeId, String memberId) {
+        return bookmarkJpaRepository.getBookmarkByBookmarkYN(placeId, memberId);
+    }
 }

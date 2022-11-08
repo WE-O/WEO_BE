@@ -29,4 +29,7 @@ public class Bookmark {
 
     @Column(name = "memo")
     private String memo;
+
+    @Column(name = "bookmark_yn")
+    private String bookmarkYN;
 }

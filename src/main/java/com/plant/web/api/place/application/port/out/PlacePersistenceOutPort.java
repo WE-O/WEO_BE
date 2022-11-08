@@ -8,14 +8,14 @@ import java.util.Optional;
 public interface PlacePersistenceOutPort {
     JSONObject getKakaoPlace(String keyword);
 
-    Optional<Long> countByPlaceId(String id);
+    Optional<Long> countByPlaceId(String placeId);
 
     Place save(Place place);
 
 
-    int getByViews(String id);
+    int getByViews(String placeId);
 
-    int getByReviews(String id);
+    int getByReviews(String placeId);
 
     Place getByPlaceId(String id);
 
