@@ -155,7 +155,7 @@ public class MemberService implements MemberInPort {
 
         // 받아온 닉네임 중복 확인
         if(dupCheck > 0) {
-            return Long.valueOf(0);
+            return 0L;
         } else {
             // 없으면 변경
             return memberPersistenceOutPort.modifyNickname(memberId, nickname);

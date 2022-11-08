@@ -46,4 +46,28 @@ public class BookmarkService implements BookmarkInPort {
     public Bookmark findByMemberAndPlace(Member member, Place place) {
         return bookmarkJpaRepository.findByMemberAndPlace(member, place);
     }
+
+    /**
+     * 북마크 삭제
+     * @param memberId
+     * @param bookmarks
+     * @return
+     */
+    public Long deleteBookmark(String memberId, List<Long> bookmarks) {
+        log.info(memberId + " 회원의 북마크 삭제");
+        Long result = 0L;
+
+        for(int i=0; i<bookmarks.size(); i++) {
+            Long delResult = bookmarkPersistenceOutPort.deleteBookmark(bookmarks.get(i));
+            if(delResult > 0) {
+                result = 1L;
+            } else {
+                return 0L;
+            }
+        }
+
+        return result;
+    }
+
+
 }

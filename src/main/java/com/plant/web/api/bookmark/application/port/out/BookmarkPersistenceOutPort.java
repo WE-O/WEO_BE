@@ -1,5 +1,8 @@
 package com.plant.web.api.bookmark.application.port.out;
 
+import com.plant.web.api.bookmark.domain.Bookmark;
+import org.springframework.data.jpa.mapping.JpaPersistentEntity;
+
 import java.util.List;
 
 public interface BookmarkPersistenceOutPort {
@@ -21,4 +24,12 @@ public interface BookmarkPersistenceOutPort {
     Long modifyBookmark(String memberId, Long bookmarkId, String memo);
 
     String getBookmarkByBookmarkYN(String placeId, String memberId);
+
+    /**
+     * 북마크 삭제
+     * @param bookmarkId
+     * @return
+     */
+    Long deleteBookmark(Long bookmarkId);
+    
 }

@@ -1,8 +1,10 @@
 package com.plant.web.api.bookmark.adapter.out.persistence;
 
 import com.plant.web.api.bookmark.application.port.out.BookmarkPersistenceOutPort;
+import com.plant.web.api.bookmark.domain.Bookmark;
 import com.plant.web.api.bookmark.dto.BookmarkDTO;
 import com.plant.web.api.bookmark.domain.QBookmark;
+import com.plant.web.api.member.domain.QMember;
 import com.plant.web.api.place.domain.QPlace;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -63,5 +65,22 @@ public class BookmarkPersistenceAdapter implements BookmarkPersistenceOutPort {
     @Override
     public String getBookmarkByBookmarkYN(String placeId, String memberId) {
         return bookmarkJpaRepository.getBookmarkByBookmarkYN(placeId, memberId);
+    }
+
+    /**
+     * 북마크 삭제
+     * @param bookmarkId
+     * @return
+     */
+    @Override
+    public Long deleteBookmark(Long bookmarkId) {
+        log.info(bookmarkId + " 삭제");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QBookmark B = new QBookmark("B");
+
+        return queryFactory.update(B)
+                .set(B.bookmarkYN, "N")
+                .where(B.bookmarkId.eq(bookmarkId))
+                .execute();
     }
 }

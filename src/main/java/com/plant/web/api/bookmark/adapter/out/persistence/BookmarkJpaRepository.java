@@ -16,4 +16,5 @@ public interface BookmarkJpaRepository extends JpaRepository<Bookmark, Serializa
     String getBookmarkByBookmarkYN(@Param("placeId") String placeId, @Param("memberId") String memberId);
 
     Bookmark findByMemberAndPlace(Member member, Place place);
+
 }

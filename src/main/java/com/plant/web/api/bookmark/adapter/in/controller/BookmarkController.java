@@ -1,6 +1,7 @@
 package com.plant.web.api.bookmark.adapter.in.controller;
 
 import com.plant.web.api.bookmark.application.port.in.BookmarkInPort;
+import com.plant.web.api.bookmark.domain.Bookmark;
 import com.plant.web.api.member.application.port.in.MemberInPort;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -55,5 +56,12 @@ public class BookmarkController {
 
         Long modifyBookmark = bookmarkInPort.modifyBookmark(memberId, bookmarkId, memo);
         return ResponseEntity.ok(modifyBookmark);
+    }
+
+    @DeleteMapping(value = "/{memberId}")
+    @Operation(summary = "북마크 삭제")
+    public ResponseEntity<?> deleteBookmark(@PathVariable(value = "memberId") String memberId, @RequestParam("bookmarks") List<Long> bookmarks) {
+        Long result = bookmarkInPort.deleteBookmark(memberId, bookmarks);
+        return ResponseEntity.ok(result);
     }
 }
