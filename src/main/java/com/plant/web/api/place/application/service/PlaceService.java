@@ -31,8 +31,12 @@ import java.util.Optional;
 @Service
 @Transactional
 @Slf4j
+@RequiredArgsConstructor
 public class PlaceService implements PlaceInPort {
 
+    private final MemberService memberService;
+    private final BookmarkService bookmarkService;
+    private final PlaceJpaRepository placeJpaRepository;
     private final PlacePersistenceOutPort placePersistenceOutPort;
     private final BookmarkPersistenceOutPort bookmarkPersistenceOutPort;
 
@@ -140,5 +144,9 @@ public class PlaceService implements PlaceInPort {
         result.put("documents", resultJsonArr);
 
         return result;
+    }
+
+    public Place findById(String id) {
+        return placeJpaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("없음"));
     }
 }

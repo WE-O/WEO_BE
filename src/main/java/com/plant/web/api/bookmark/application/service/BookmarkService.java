@@ -1,8 +1,11 @@
 package com.plant.web.api.bookmark.application.service;
 
+import com.plant.web.api.bookmark.adapter.out.persistence.BookmarkJpaRepository;
 import com.plant.web.api.bookmark.application.port.in.BookmarkInPort;
 import com.plant.web.api.bookmark.application.port.out.BookmarkPersistenceOutPort;
 import com.plant.web.api.bookmark.domain.Bookmark;
+import com.plant.web.api.member.domain.Member;
+import com.plant.web.api.place.domain.Place;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookmarkService implements BookmarkInPort {
 
+    private final BookmarkJpaRepository bookmarkJpaRepository;
     private final BookmarkPersistenceOutPort bookmarkPersistenceOutPort;
 
     /**
@@ -37,5 +41,9 @@ public class BookmarkService implements BookmarkInPort {
     public Long modifyBookmark(String memberId, Long bookmarkId, String memo) {
         log.info("북마크 수정");
         return bookmarkPersistenceOutPort.modifyBookmark(memberId, bookmarkId, memo);
+    }
+
+    public Bookmark findByMemberAndPlace(Member member, Place place) {
+        return bookmarkJpaRepository.findByMemberAndPlace(member, place);
     }
 }
