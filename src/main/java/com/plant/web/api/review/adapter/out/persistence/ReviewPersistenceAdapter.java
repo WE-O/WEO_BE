@@ -52,7 +52,6 @@ public class ReviewPersistenceAdapter implements ReviewPersistenceOutPort {
     @Override
     public Review save(Review review) {
         log.info("리뷰 등록");
-        //em.persist(review);
         return reviewJpaRepository.save(review);
     }
 

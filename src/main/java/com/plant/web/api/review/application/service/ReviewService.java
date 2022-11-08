@@ -50,13 +50,13 @@ public class ReviewService implements ReviewInPort {
      * @return
      */
     public Review addReview(String memberId, String placeId, String contents, List<Long> keywords) {
-        log.info(memberId + " 회원의 " + placeId + " 장소에 대한 리뷰 등록");
+        log.info(memberId + " 회원의 " + placeId + " 장소에 대한 리뷰 및 키워드 등록");
 
         Member member = memberPersistenceOutPort.findByMemberId(memberId);
         Place place = placePersistenceOutPort.getByPlaceId(placeId);
 
         Review setReview = new Review(member, place, contents);
-        reviewPersistenceOutPort.save(setReview);
+        Review result = reviewPersistenceOutPort.save(setReview);
 
         //키워드 등록
         //List<PlaceKeyword> placeKeywords = new ArrayList<>();
@@ -67,7 +67,7 @@ public class ReviewService implements ReviewInPort {
             placeKeywordPersistenceOutPort.save(placeKeyword);
         });
 
-        return setReview;
+        return result;
     }
 
     /**
@@ -78,7 +78,7 @@ public class ReviewService implements ReviewInPort {
      * @return
      */
     public Review modifyReview(String memberId, String placeId, String contents) {
-        log.info(memberId + " 회원의 " + placeId + " 장소에 대한 리뷰 등록");
+        log.info(memberId + " 회원의 " + placeId + " 장소에 대한 리뷰 수정");
 
         Member member = memberPersistenceOutPort.findByMemberId(memberId);
         Place place = placePersistenceOutPort.getByPlaceId(placeId);

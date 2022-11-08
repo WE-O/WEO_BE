@@ -32,8 +32,7 @@ public class PlaceKeywordPersistenceAdapter implements PlaceKeywordPersistenceOu
 
     @Override
     public PlaceKeyword save(PlaceKeyword placeKeyword) {
-        log.info("리뷰 등록");
-        //em.persist(review);
+        log.info("리뷰에 대한 키워드 등록");
         return placeKeywordJpaRepository.save(placeKeyword);
     }
 

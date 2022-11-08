@@ -2,8 +2,6 @@ package com.plant.web.api.scrap.dto;
 
 import lombok.Data;
 
-import java.math.BigInteger;
-
 @Data
 public class ScrapDTO {
 

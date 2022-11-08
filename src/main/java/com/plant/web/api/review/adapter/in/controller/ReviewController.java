@@ -4,6 +4,8 @@ import com.plant.web.api.review.application.port.in.ReviewInPort;
 import com.plant.web.api.review.domain.Review;
 import com.plant.web.api.review.dto.ReviewDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,20 @@ public class ReviewController {
      */
     @PostMapping(value = "/{memberId}")
     @Operation(summary = "리뷰 등록")
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "contents"
+            , value = "작성한 리뷰 코멘트"
+            , required = true
+            , dataType = "string"
+        )
+        , @ApiImplicitParam(
+            name = "keywords"
+            , value = "선택한 키워드들의 keywordId. 콤마로 구분 (ex. 1,3,4)"
+            , required = true
+            , dataType = "List<Long>"
+        )
+    })
     public ResponseEntity<?> addReview(@PathVariable(value = "memberId") String memberId, @RequestParam("placeId") String placeId, @RequestParam("contents") String contents, @RequestParam("keywords") List<Long> keywords) {
         Review result = reviewInPort.addReview(memberId, placeId, contents, keywords);
         return ResponseEntity.ok(result);
@@ -57,6 +73,12 @@ public class ReviewController {
      */
     @PutMapping(value = "/{memberId}")
     @Operation(summary = "리뷰 수정")
+    @ApiImplicitParam(
+        name = "contents"
+        , value = "작성한 리뷰 코멘트"
+        , required = true
+        , dataType = "string"
+    )
     public ResponseEntity<?> modifyReview(@PathVariable(value = "memberId") String memberId, @RequestParam("placeId") String placeId, @RequestParam("contents") String contents) {
         Review result = reviewInPort.modifyReview(memberId, placeId, contents);
         return ResponseEntity.ok(result);
