@@ -78,7 +78,6 @@ public class PlaceService implements PlaceInPort {
      * 카카오 API 에서 받아오는 데이터가 없을경우 저장
      */
     private JSONObject savePlace(String keyword, String memberId) {
-        Member member = memberService.findByMemberId(memberId);
 
         String changKeyword = keyword.replaceAll("\\s", "");
         JSONObject kakaoPlace = placePersistenceOutPort.getKakaoPlace(changKeyword);
@@ -126,8 +125,9 @@ public class PlaceService implements PlaceInPort {
                 resultMap.put("road_address_name", (map.get("road_address_name")));
 
                 if (!ObjectUtils.isEmpty(memberId)) {
-//                    String bookmarkList = bookmarkPersistenceOutPort.getBookmarkByBookmarkYN((String) map.get("id"), memberId);
+                    Member member = memberService.findByMemberId(memberId);
                     String placeId = (String) map.get("id");
+
                     if (!ObjectUtils.isEmpty(placeId)) {
                         Place place = this.findById(placeId);
                         Bookmark bookmark = bookmarkService.findByMemberAndPlace(member, place);
@@ -146,7 +146,7 @@ public class PlaceService implements PlaceInPort {
         return result;
     }
 
-    public Place findById(String id) {
-        return placeJpaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("없음"));
+    public Place findById(String memberId) {
+        return placeJpaRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("없음"));
     }
 }
