@@ -2,7 +2,7 @@ package com.plant.web.api.bookmark.adapter.in.controller;
 
 import com.plant.web.api.bookmark.application.port.in.BookmarkInPort;
 import com.plant.web.api.bookmark.domain.Bookmark;
-import com.plant.web.api.member.application.port.in.MemberInPort;
+import com.plant.web.api.bookmark.domain.ModifyBookmarkRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,6 +55,25 @@ public class BookmarkController {
             , @RequestParam("memo") String memo) {
 
         Long modifyBookmark = bookmarkInPort.modifyBookmark(memberId, bookmarkId, memo);
+        return ResponseEntity.ok(modifyBookmark);
+    }
+
+    /**
+     * 북마크 수정
+     * @param request
+     * @return
+     */
+    @PatchMapping
+    @Operation(summary = "회원 북마크 수정")
+    @ApiImplicitParam(
+            name = "memberId,placeId,bookmarkYN"
+            , value = "북마크 수정"
+            , required = true
+            , dataType = "Object"
+    )
+    public ResponseEntity<?> modifyBookmark(@RequestBody ModifyBookmarkRequest request) {
+        Bookmark modifyBookmark = bookmarkInPort.modifyBookmark(request);
+
         return ResponseEntity.ok(modifyBookmark);
     }
 

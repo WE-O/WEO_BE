@@ -4,13 +4,17 @@ import com.plant.web.api.bookmark.adapter.out.persistence.BookmarkJpaRepository;
 import com.plant.web.api.bookmark.application.port.in.BookmarkInPort;
 import com.plant.web.api.bookmark.application.port.out.BookmarkPersistenceOutPort;
 import com.plant.web.api.bookmark.domain.Bookmark;
+import com.plant.web.api.bookmark.domain.ModifyBookmarkRequest;
+import com.plant.web.api.member.adapter.out.persistence.MemberJpaRepository;
 import com.plant.web.api.member.domain.Member;
+import com.plant.web.api.place.adapter.out.persistence.PlaceJpaRepository;
 import com.plant.web.api.place.domain.Place;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -18,6 +22,8 @@ import java.util.List;
 public class BookmarkService implements BookmarkInPort {
 
     private final BookmarkJpaRepository bookmarkJpaRepository;
+    private final MemberJpaRepository memberJpaRepository;
+    private final PlaceJpaRepository placeJpaRepository;
     private final BookmarkPersistenceOutPort bookmarkPersistenceOutPort;
 
     /**
@@ -41,6 +47,16 @@ public class BookmarkService implements BookmarkInPort {
     public Long modifyBookmark(String memberId, Long bookmarkId, String memo) {
         log.info("북마크 수정");
         return bookmarkPersistenceOutPort.modifyBookmark(memberId, bookmarkId, memo);
+    }
+
+    @Override
+    public Bookmark modifyBookmark(ModifyBookmarkRequest request) {
+        Member member = memberJpaRepository.getByMemberId(request.getMemberId());
+        Place place = placeJpaRepository.getByPlaceId(request.getPlaceId());
+
+        Bookmark bookmark = bookmarkJpaRepository.findByMemberAndPlace(member, place);
+        bookmark.setBookmarkYN(request.getBookmarkYN());
+        return bookmarkJpaRepository.save(bookmark);
     }
 
     public Bookmark findByMemberAndPlace(Member member, Place place) {
