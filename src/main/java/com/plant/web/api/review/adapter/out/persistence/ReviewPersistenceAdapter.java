@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -67,11 +68,10 @@ public class ReviewPersistenceAdapter implements ReviewPersistenceOutPort {
         log.info(reviewId + " 삭제");
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QReview R = new QReview("R");
-        Review review = new Review();
 
         return queryFactory.update(R)
                 .set(R.delYn, 'Y')
-                .set(R.updDate, review.getUpdDate())
+                .set(R.updDate, LocalDateTime.now())
                 .where(R.reviewId.eq(reviewId))
                 .execute();
     }
