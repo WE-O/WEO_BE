@@ -83,4 +83,16 @@ public class ReviewController {
         Review result = reviewInPort.modifyReview(memberId, placeId, contents);
         return ResponseEntity.ok(result);
     }
+
+    /**
+     * 리뷰 삭제
+     * @param reviewId
+     * @return
+     */
+    @DeleteMapping
+    @Operation(summary = "리뷰 삭제")
+    public ResponseEntity<?> deleteReview(@RequestParam("reviewId") Long reviewId) {
+        Long result = reviewInPort.deleteReview(reviewId);
+        return ResponseEntity.ok(result);
+    }
 }

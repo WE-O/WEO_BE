@@ -16,7 +16,16 @@ public interface ReviewPersistenceOutPort {
     List findReviewsByMemberId(String memberId);
 
     /**
-     * 리뷰 등록
+     * 리뷰 등록/수정
+     * @param review
+     * @return
      */
     Review save(Review review);
+
+    /**
+     * 리뷰 삭제
+     * @param reviewId
+     * @return
+     */
+    Long deleteReview(Long reviewId);
 }

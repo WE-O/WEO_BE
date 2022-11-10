@@ -89,4 +89,14 @@ public class ReviewService implements ReviewInPort {
         return result;
     }
 
+    /**
+     * 리뷰 삭제
+     * @param reviewId
+     * @return
+     */
+    public Long deleteReview(Long reviewId) {
+        log.info(reviewId + "리뷰 삭제");
+        return reviewPersistenceOutPort.deleteReview(reviewId);
+    }
+
 }

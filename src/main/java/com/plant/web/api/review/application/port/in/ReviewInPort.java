@@ -11,4 +11,6 @@ public interface ReviewInPort {
     Review addReview(String memberId, String placeId, String contents, List<Long> keywords);
 
     Review modifyReview(String memberId, String placeId, String contents);
+
+    Long deleteReview(Long reviewId);
 }

@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -39,8 +40,12 @@ public class Review {
     @Column(name = "reg_date")
     private LocalDateTime regDate;
 
+    @CreationTimestamp
     @Column(name = "upd_date")
     private LocalDateTime updDate;
+
+    @Column(name = "del_yn")
+    private char delYn;
 
     @Builder
     public Review(Member member, Place place, String contents) {
