@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +28,11 @@ public class ScrapService implements ScrapInPort {
      */
     public List<ScrapDTO> findScrapsByMemberId(String memberId) {
         log.info(memberId + " 회원의 콘텐츠 스크랩 리스트 조회");
-        List scraps = scrapPersistenceOutPort.findScrapsByMemberId(memberId);
-        return scraps;
+        List result = scrapPersistenceOutPort.findScrapsByMemberId(memberId);
+        List<ScrapDTO> list = new ArrayList<>(result);
+        for (int i = 0; i < result.size(); i++) {
+            list.get(i).setIndex(i);
+        }
+        return list;
     }
 }
