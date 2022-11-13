@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -52,14 +53,14 @@ public class BookmarkPersistenceAdapter implements BookmarkPersistenceOutPort {
     }
 
     /**
-     * 북마크 수정
+     * 마이페이지 북마크 메모 수정
      * @param memberId
      * @param bookmarkId
      * @param memo
      * @return
      */
     public Long modifyBookmark(String memberId, Long bookmarkId, String memo) {
-        log.info("북마크 수정");
+        log.info("북마크 메모 수정");
         QBookmark B = new QBookmark("B");
 
         return queryFactory.update(B)
@@ -69,6 +70,12 @@ public class BookmarkPersistenceAdapter implements BookmarkPersistenceOutPort {
                 .execute();
     }
 
+    /**
+     * 북마크 YN 수정
+     * @param placeId
+     * @param memberId
+     * @return
+     */
     @Override
     public String getBookmarkByBookmarkYN(String placeId, String memberId) {
         return bookmarkJpaRepository.getBookmarkByBookmarkYN(placeId, memberId);
@@ -86,6 +93,7 @@ public class BookmarkPersistenceAdapter implements BookmarkPersistenceOutPort {
 
         return queryFactory.update(B)
                 .set(B.bookmarkYN, "N")
+                .set(B.updDate, LocalDateTime.now())
                 .where(B.bookmarkId.eq(bookmarkId))
                 .execute();
     }

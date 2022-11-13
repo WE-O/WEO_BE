@@ -12,7 +12,7 @@ public interface BookmarkPersistenceOutPort {
     List findBookmarksByMemberId(String memberId);
 
     /**
-     * 북마크 수정
+     * 마이페이지 북마크 메모 수정
      * @param memberId
      * @param bookmarkId
      * @param memo

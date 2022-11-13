@@ -35,14 +35,14 @@ public class BookmarkController {
     }
 
     /**
-     * 북마크 수정
+     * 마이페이지 북마크 메모 수정
      * @param memberId
      * @param bookmarkId
      * @param memo
      * @return
      */
     @PutMapping(value = "/{memberId}")
-    @Operation(summary = "회원별 북마크 수정")
+    @Operation(summary = "마이페이지 북마크 메모 수정")
     @ApiImplicitParam(
             name = "memo"
             , value = "수정할 메모 내용"
@@ -77,6 +77,12 @@ public class BookmarkController {
         return ResponseEntity.ok(modifyBookmark);
     }
 
+    /**
+     * 북마크 삭제
+     * @param memberId
+     * @param bookmarks
+     * @return
+     */
     @DeleteMapping(value = "/{memberId}")
     @Operation(summary = "북마크 삭제")
     @ApiImplicitParam(
