@@ -9,6 +9,8 @@ import java.util.List;
 @Data
 public class ReviewDTO {
 
+    private int index;
+
     private Long reviewId;
 
     private String memberId;

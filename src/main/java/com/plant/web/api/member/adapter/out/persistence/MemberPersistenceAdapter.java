@@ -27,12 +27,10 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
 
-
     public MemberPersistenceAdapter(EntityManager em) {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
     }
-
 
     @Override
     /**

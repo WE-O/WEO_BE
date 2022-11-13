@@ -45,6 +45,7 @@ public class ReviewPersistenceAdapter implements ReviewPersistenceOutPort {
                 .from(R)
                 .join(P).on(R.place.placeId.eq(P.placeId))
                 .where(R.member.memberId.eq(memberId).and(R.delYn.eq('N')))
+                .orderBy(R.regDate.desc())
                 .fetch();
     }
 

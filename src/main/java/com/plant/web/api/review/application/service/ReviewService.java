@@ -37,8 +37,13 @@ public class ReviewService implements ReviewInPort {
      */
     public List<ReviewDTO> findReviewsByMemberId(String memberId) {
         log.info(memberId + " 회원의 리뷰 리스트 조회");
-        List reviews = reviewPersistenceOutPort.findReviewsByMemberId(memberId);
-        return reviews;
+        List result = reviewPersistenceOutPort.findReviewsByMemberId(memberId);
+        List<ReviewDTO> list = new ArrayList<>(result);
+
+        for (int i = 0; i < result.size(); i++) {
+            list.get(i).setIndex(i);
+        }
+        return list;
     }
 
     /**
