@@ -21,18 +21,17 @@ import java.util.List;
 @Slf4j
 @Repository
 @Transactional
-@RequiredArgsConstructor
 public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
 
     private final EntityManager em;
-    //private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
 
-    /*
-    public MemberRepository(EntityManager em) {
+
+    public MemberPersistenceAdapter(EntityManager em) {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
     }
-    */
+
 
     @Override
     /**
@@ -101,7 +100,6 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
     //querydsl로 변경 필요!
     public Member findByMemberId(String memberId) {
         log.info("memberId로 회원 조회");
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QMember m = new QMember("m");
 
         return queryFactory
@@ -118,7 +116,6 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
      */
     public List<Member> findByNickname(String nickname) {
         log.info("닉네임 중복 체크");
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QMember m = new QMember("m");
 
         return queryFactory
@@ -137,7 +134,6 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
     @Override
     public Long accountRemove(String memberId) {
         log.info("memberId로 회원 조회");
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QMember m = new QMember("m");
 
         return queryFactory.update(m)
@@ -154,7 +150,6 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
      */
     public Long modifyNickname(String memberId, String nickname) {
         log.info("닉네임 수정");
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QMember m = new QMember("m");
 
         return queryFactory.update(m)
