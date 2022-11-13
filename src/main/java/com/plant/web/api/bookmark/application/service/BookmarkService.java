@@ -5,6 +5,7 @@ import com.plant.web.api.bookmark.application.port.in.BookmarkInPort;
 import com.plant.web.api.bookmark.application.port.out.BookmarkPersistenceOutPort;
 import com.plant.web.api.bookmark.domain.Bookmark;
 import com.plant.web.api.bookmark.domain.ModifyBookmarkRequest;
+import com.plant.web.api.bookmark.dto.BookmarkDTO;
 import com.plant.web.api.member.adapter.out.persistence.MemberJpaRepository;
 import com.plant.web.api.member.domain.Member;
 import com.plant.web.api.place.adapter.out.persistence.PlaceJpaRepository;
@@ -31,10 +32,16 @@ public class BookmarkService implements BookmarkInPort {
      * @param memberId
      * @return
      */
-    public List<Bookmark> findBookmarksByMemberId(String memberId) {
+    public List<BookmarkDTO> findBookmarksByMemberId(String memberId) {
         log.info(memberId + " 회원의 북마크 조회");
-        List bookmarks = bookmarkPersistenceOutPort.findBookmarksByMemberId(memberId);
-        return bookmarks;
+        List result = bookmarkPersistenceOutPort.findBookmarksByMemberId(memberId);
+        List<BookmarkDTO> list = new ArrayList<>(result);
+
+        for(int i = 0; i < result.size(); i++){
+            list.get(i).setIndex(i);
+        }
+
+        return list;
     }
 
     /**

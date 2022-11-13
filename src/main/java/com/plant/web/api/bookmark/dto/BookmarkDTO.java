@@ -3,8 +3,12 @@ package com.plant.web.api.bookmark.dto;
 import com.plant.web.api.place.domain.Place;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class BookmarkDTO {
+
+    private int index;
 
     private Long bookmarkId;
 
@@ -19,5 +23,9 @@ public class BookmarkDTO {
     private String memo;
 
     private String bookmarkYN;
+
+    private LocalDateTime regDate;
+
+    private LocalDateTime updDate;
 
 }

@@ -4,8 +4,11 @@ import com.plant.web.api.member.domain.Member;
 import com.plant.web.api.place.domain.Place;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,4 +36,14 @@ public class Bookmark {
 
     @Column(name = "bookmark_yn")
     private String bookmarkYN;
+
+    @CreationTimestamp
+    @Column(name = "reg_date")
+    private LocalDateTime regDate;
+
+    @UpdateTimestamp
+    @Column(name = "upd_date")
+    private LocalDateTime updDate;
+
+//    private int index;
 }
