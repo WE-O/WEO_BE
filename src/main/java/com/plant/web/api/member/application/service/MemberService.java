@@ -115,8 +115,10 @@ public class MemberService implements MemberInPort {
             JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
             String memberId = element.getAsJsonObject().get("id").getAsString();
             String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
-            String profileImg = properties.getAsJsonObject().get("profile_image").getAsString();
-
+            String profileImg = "";
+            if(properties.getAsJsonObject().get("profile_image")!=null) {
+                profileImg = properties.getAsJsonObject().get("profile_image").getAsString();
+            }
             member.setSnsType(snsType);
             member.setMemberId(memberId);
             member.setEmail(email);
@@ -130,7 +132,10 @@ public class MemberService implements MemberInPort {
             JsonObject naverAccount = element.getAsJsonObject().get("response").getAsJsonObject();
             String memberId = naverAccount.getAsJsonObject().get("id").getAsString();
             String email = naverAccount.getAsJsonObject().get("email").getAsString();
-            String profileImg = naverAccount.getAsJsonObject().get("profile_image").getAsString();
+            String profileImg = "";
+            if(naverAccount.getAsJsonObject().get("profile_image")!=null) {
+                profileImg = naverAccount.getAsJsonObject().get("profile_image").getAsString();
+            }
 
             member.setSnsType(snsType);
             member.setMemberId(memberId);
