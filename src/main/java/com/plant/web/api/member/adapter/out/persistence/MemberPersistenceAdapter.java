@@ -16,6 +16,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -138,6 +139,7 @@ public class MemberPersistenceAdapter implements MemberPersistenceOutPort {
 
         return queryFactory.update(m)
                 .set(m.delYn, 'Y')
+                .set(m.delDate, LocalDateTime.now())
                 .where(m.memberId.eq(memberId))
                 .execute();
     }
