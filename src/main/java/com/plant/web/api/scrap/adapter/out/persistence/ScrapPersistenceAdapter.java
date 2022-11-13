@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -44,5 +45,24 @@ public class ScrapPersistenceAdapter implements ScrapPersistenceOutPort {
                 .where(S.member.memberId.eq(memberId))
                 .orderBy(S.regDate.desc())
                 .fetch();
+    }
+
+    /**
+     * 스크랩 삭제
+     * @param scrapId
+     * @return
+     */
+
+    @Override
+    public Long deleteScrap(Long scrapId) {
+        log.info(scrapId + " 삭제");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QScrap S = new QScrap("S");
+
+        return queryFactory.update(S)
+                .set(S.delYn, 'Y')
+                .set(S.updDate, LocalDateTime.now())
+                .where(S.scrapId.eq(scrapId))
+                .execute();
     }
 }

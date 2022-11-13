@@ -5,4 +5,6 @@ import java.util.List;
 public interface ScrapInPort {
 
     List findScrapsByMemberId(String memberId);
+
+    Long deleteScrap(Long scrapid);
 }

@@ -35,4 +35,15 @@ public class ScrapService implements ScrapInPort {
         }
         return list;
     }
+
+    /**
+     * 스크랩 삭제
+     * @param scrapid
+     * @return
+     */
+    @Override
+    public Long deleteScrap(Long scrapid) {
+        log.info(scrapid + " 스크랩 삭제");
+        return scrapPersistenceOutPort.deleteScrap(scrapid);
+    }
 }

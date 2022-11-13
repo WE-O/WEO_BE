@@ -6,10 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,10 +19,27 @@ public class ScrapController {
 
     private final ScrapInPort scrapInPort;
 
+    /**
+     * 회원별 스크랩 리스트 조회
+     * @param memberId
+     * @return
+     */
     @GetMapping(value = "/{memberId}")
     @Operation(summary = "회원별 스크랩 리스트 조회")
     public ResponseEntity<?> findReviewsByMemberId(@PathVariable(value = "memberId") String memberId) {
         List scraps = scrapInPort.findScrapsByMemberId(memberId);
         return ResponseEntity.ok(scraps);
+    }
+
+    /**
+     * 스크랩 삭제
+     * @param scrapId
+     * @return
+     */
+    @DeleteMapping
+    @Operation(summary = "스크랩 삭제")
+    public ResponseEntity<?> deleteScrap(@RequestParam("scrapId") Long scrapId) {
+        Long result = scrapInPort.deleteScrap(scrapId);
+        return ResponseEntity.ok(result);
     }
 }

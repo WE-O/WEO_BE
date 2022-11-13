@@ -20,4 +20,6 @@ public class ScrapDTO {
     private LocalDateTime regDate;
 
     private LocalDateTime updDate;
+
+    private char delYn;
 }

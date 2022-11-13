@@ -11,4 +11,11 @@ public interface ScrapPersistenceOutPort {
      */
     List findScrapsByMemberId(String memberId);
 
+    /**
+     * 스크랩 삭제
+     * @param scrapId
+     * @return
+     */
+    Long deleteScrap(Long scrapId);
+
 }

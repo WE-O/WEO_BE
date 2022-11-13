@@ -35,4 +35,6 @@ public class Scrap {
     @Column(name = "upd_date")
     private LocalDateTime updDate;
 
+    @Column(name = "del_yn")
+    private char delYn;
 }
