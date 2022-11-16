@@ -1,6 +1,8 @@
 package com.plant.web.api.scrap.adapter.in.controller;
 
+import com.plant.web.api.place.dto.PlaceDto;
 import com.plant.web.api.scrap.application.port.in.ScrapInPort;
+import com.plant.web.api.scrap.domain.Scrap;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,19 @@ public class ScrapController {
     public ResponseEntity<?> findReviewsByMemberId(@PathVariable(value = "memberId") String memberId) {
         List scraps = scrapInPort.findScrapsByMemberId(memberId);
         return ResponseEntity.ok(scraps);
+    }
+
+    /**
+     * 스크랩 추가
+     * @param memberId
+     * @param contentsId
+     * @return
+     */
+    @PostMapping(value = "/{memberId}")
+    @Operation(summary = "스크랩 추가")
+    public ResponseEntity<?> addScrap(@PathVariable(value = "memberId") String memberId, @RequestParam("contentsId") Long contentsId) {
+        Scrap result = scrapInPort.addScrap(memberId, contentsId);
+        return ResponseEntity.ok(result);
     }
 
     /**

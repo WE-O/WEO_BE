@@ -1,5 +1,7 @@
 package com.plant.web.api.scrap.application.port.out;
 
+import com.plant.web.api.scrap.domain.Scrap;
+
 import java.util.List;
 
 public interface ScrapPersistenceOutPort {
@@ -10,6 +12,13 @@ public interface ScrapPersistenceOutPort {
      * @return
      */
     List findScrapsByMemberId(String memberId);
+
+    /**
+     * 스크랩 추가
+     * @param scrap
+     * @return
+     */
+    Scrap save(Scrap scrap);
 
     /**
      * 스크랩 삭제

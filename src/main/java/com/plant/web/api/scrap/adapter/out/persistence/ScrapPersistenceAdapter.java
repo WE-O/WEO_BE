@@ -7,6 +7,7 @@ import com.plant.web.api.review.domain.QReview;
 import com.plant.web.api.review.dto.ReviewDTO;
 import com.plant.web.api.scrap.application.port.out.ScrapPersistenceOutPort;
 import com.plant.web.api.scrap.domain.QScrap;
+import com.plant.web.api.scrap.domain.Scrap;
 import com.plant.web.api.scrap.dto.ScrapDTO;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -22,10 +23,17 @@ import java.util.List;
 @Slf4j
 @Repository
 @Transactional
-@RequiredArgsConstructor
 public class ScrapPersistenceAdapter implements ScrapPersistenceOutPort {
 
     private final EntityManager em;
+    private final ScrapJpaRepository scrapJpaRepository;
+    private final JPAQueryFactory queryFactory;
+
+    public ScrapPersistenceAdapter(EntityManager em, ScrapJpaRepository scrapJpaRepository) {
+        this.em = em;
+        this.queryFactory = new JPAQueryFactory(em);
+        this.scrapJpaRepository = scrapJpaRepository;
+    }
 
     /**
      * 회원별 콘텐츠 스크랩 리스트 조회
@@ -35,7 +43,6 @@ public class ScrapPersistenceAdapter implements ScrapPersistenceOutPort {
 
     public List<ScrapDTO> findScrapsByMemberId(String memberId) {
         log.info("회원별 콘텐츠 스크랩 리스트 조회");
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QScrap S = new QScrap("S");
         QContents C = new QContents("C");
 
@@ -48,15 +55,24 @@ public class ScrapPersistenceAdapter implements ScrapPersistenceOutPort {
     }
 
     /**
+     * 스크랩 추가
+     * @param scrap
+     * @return
+     */
+    @Override
+    public Scrap save(Scrap scrap) {
+        log.info("스크랩 추가");
+        return scrapJpaRepository.save(scrap);
+    }
+
+    /**
      * 스크랩 삭제
      * @param scrapId
      * @return
      */
-
     @Override
     public Long deleteScrap(Long scrapId) {
         log.info(scrapId + " 삭제");
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QScrap S = new QScrap("S");
 
         return queryFactory.update(S)

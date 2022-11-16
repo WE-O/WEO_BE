@@ -61,6 +61,7 @@ public class ReviewService implements ReviewInPort {
         Place place = placePersistenceOutPort.getByPlaceId(placeId);
 
         Review setReview = new Review(member, place, contents);
+        setReview.setDelYn('N');
         Review result = reviewPersistenceOutPort.save(setReview);
 
         //키워드 등록

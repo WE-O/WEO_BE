@@ -4,8 +4,10 @@ import com.plant.web.api.contents.domain.Contents;
 import com.plant.web.api.member.domain.Member;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -35,6 +37,12 @@ public class Scrap {
     @Column(name = "upd_date")
     private LocalDateTime updDate;
 
+    @ColumnDefault("'N'")
     @Column(name = "del_yn")
     private char delYn;
+
+    public Scrap(Member member, Contents contents) {
+        this.member = member;
+        this.contents = contents;
+    }
 }
