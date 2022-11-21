@@ -5,8 +5,6 @@ import lombok.Data;
 @Data
 public class PlaceKeywordDTO {
 
-    private Long placeKeywordId;
-
     private String placeId;
 
     private String placeName;
@@ -14,4 +12,6 @@ public class PlaceKeywordDTO {
     private Long keywordId;
 
     private String keywordName;
+
+    private Long cnt;
 }
