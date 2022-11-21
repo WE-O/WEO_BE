@@ -3,7 +3,6 @@ package com.plant.web.api.place.adapter.out.persistence;
 import com.plant.web.api.place.application.port.out.PlacePersistenceOutPort;
 import com.plant.web.api.place.domain.Place;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -11,15 +10,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Repository
@@ -45,7 +40,7 @@ public class PlacePersistenceAdapter implements PlacePersistenceOutPort {
         List<Object> listAll = new ArrayList<>();
         for(int i = 1; i <= 3; i++) {
             URI uri = UriComponentsBuilder
-                    .fromUriString("https://dapi.kakao.com//v2/local/search/keyword")
+                    .fromUriString("https://dapi.kakao.com/v2/local/search/keyword")
                     .queryParam("query", keyword)
                     .queryParam("page", i)
                     .queryParam("size", 15)
