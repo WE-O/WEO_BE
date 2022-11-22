@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
         //프론트와 다른 도메인간 호출로 인한 CORS 에러 관련 설정
         //TODO 추후 allowedOrigins 주소를 우리의 도메인 이름으로 변경해야함
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000","http://49.50.166.136:3000", "https://siksikmulmul.shop:3000", "http://siksikmulmul.shop:3000/main")
+                .allowedOrigins("http://localhost:3000","http://49.50.166.136:3000", "https://siksikmulmul.shop", "http://siksikmulmul.shop/main")
                 .allowCredentials(true);
     }
 }
