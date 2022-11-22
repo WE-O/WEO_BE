@@ -34,7 +34,7 @@ public class MemberController {
      * @return
      */
     @GetMapping(value = "/join")
-    @Operation(summary = "로그인", description = "토큰값으로 sns정보를 조회 후, 받아온 정보가 DB에 없으면 회원가입 후 로그인")
+    @Operation(summary = "로그인testtest", description = "토큰값으로 sns정보를 조회 후, 받아온 정보가 DB에 없으면 회원가입 후 로그인")
     @ApiImplicitParams({
         @ApiImplicitParam(
             name = "accessToken"
