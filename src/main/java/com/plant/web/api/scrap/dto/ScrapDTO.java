@@ -15,7 +15,7 @@ public class ScrapDTO {
 
     private String title;
 
-    private String img;
+    //private String img;
 
     private LocalDateTime regDate;
 

@@ -46,7 +46,7 @@ public class ScrapPersistenceAdapter implements ScrapPersistenceOutPort {
         QScrap S = new QScrap("S");
         QContents C = new QContents("C");
 
-        return queryFactory.select(Projections.bean(ScrapDTO.class, S.scrapId, C.contentsId, C.title, C.img, S.regDate))
+        return queryFactory.select(Projections.bean(ScrapDTO.class, S.scrapId, C.contentsId, C.title, S.regDate))
                 .from(S)
                 .join(C).on(S.contents.contentsId.eq(C.contentsId))
                 .where(S.member.memberId.eq(memberId).and(S.delYn.eq('N')))
