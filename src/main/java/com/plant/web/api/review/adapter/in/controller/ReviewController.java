@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -59,8 +60,13 @@ public class ReviewController {
             , dataType = "List<Long>"
         )
     })
-    public ResponseEntity<?> addReview(@PathVariable(value = "memberId") String memberId, @RequestParam("placeId") String placeId, @RequestParam("contents") String contents, @RequestParam("keywords") List<Long> keywords) {
-        Review result = reviewInPort.addReview(memberId, placeId, contents, keywords);
+    public ResponseEntity<?> addReview(
+            @PathVariable(value = "memberId") String memberId
+            , @RequestParam("placeId") String placeId
+            , @RequestParam("contents") String contents
+            , @RequestParam("keywords") List<Long> keywords
+            , @RequestParam("imgFiles") List<MultipartFile> imgFiles) {
+        Review result = reviewInPort.addReview(memberId, placeId, contents, keywords, imgFiles);
         return ResponseEntity.ok(result);
     }
 

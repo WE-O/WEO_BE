@@ -12,9 +12,11 @@ import com.plant.web.api.review.application.port.in.ReviewInPort;
 import com.plant.web.api.review.application.port.out.ReviewPersistenceOutPort;
 import com.plant.web.api.review.domain.Review;
 import com.plant.web.api.review.dto.ReviewDTO;
+import com.plant.web.config.bucket.S3Image;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,8 @@ public class ReviewService implements ReviewInPort {
     private final PlacePersistenceOutPort placePersistenceOutPort;
     private final KeywordPersistenceOutPort keywordPersistenceOutPort;
     private final PlaceKeywordPersistenceOutPort placeKeywordPersistenceOutPort;
+
+    private final S3Image s3Image;
 
     /**
      * 회원별 리뷰 리스트 조회
@@ -54,7 +58,7 @@ public class ReviewService implements ReviewInPort {
      * @param keywords
      * @return
      */
-    public Review addReview(String memberId, String placeId, String contents, List<Long> keywords) {
+    public Review addReview(String memberId, String placeId, String contents, List<Long> keywords, List<MultipartFile> imgFiles) {
         log.info(memberId + " 회원의 " + placeId + " 장소에 대한 리뷰 및 키워드 등록");
 
         Member member = memberPersistenceOutPort.findByMemberId(memberId);
@@ -72,6 +76,9 @@ public class ReviewService implements ReviewInPort {
             //placeKeywords.add(placeKeyword);
             placeKeywordPersistenceOutPort.save(placeKeyword);
         });
+
+        //사진 등록
+        s3Image.s3Image(imgFiles);
 
         return result;
     }
