@@ -78,7 +78,7 @@ public class ReviewService implements ReviewInPort {
         });
 
         //사진 등록
-        s3Image.s3Image(imgFiles);
+        //s3Image.s3Image(imgFiles);
 
         return result;
     }
