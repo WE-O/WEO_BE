@@ -96,7 +96,6 @@ public class PlaceService implements PlaceInPort {
                 Place board = new Place();
                 board.setAddressName((String) map.get("address_name"));
                 board.setCategoryGroupCode((String) map.get("category_group_code"));
-                board.setCategoryGroupName((String) map.get("category_group_name"));
                 board.setCategoryGroupName((String) map.get("category_name"));
                 board.setDistance((String) map.get("distance"));
                 board.setPlaceId((String) map.get("id"));

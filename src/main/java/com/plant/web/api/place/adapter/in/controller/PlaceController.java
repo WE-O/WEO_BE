@@ -26,7 +26,7 @@ public class PlaceController {
     @GetMapping
     @ApiParam(name = "검색단어",value = "검색단어")
     @Operation(summary = "지도 검색", description = "메인페이지에서 지도 검색")
-    public ResponseEntity<?> Places(@RequestParam(name = "keyword") String keyword,@RequestParam(name = "memberId", required = false)  String memberId){
+    public ResponseEntity<?> Places(@RequestParam(name = "keyword") String keyword, @RequestParam(name = "memberId", required = false)  String memberId){
         JSONObject response = placeInPort.getPlaces(keyword, memberId);
         return ResponseEntity.ok(response);
     }

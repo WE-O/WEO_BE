@@ -1,13 +1,9 @@
 package com.plant.web.api.place.domain;
 
-import com.plant.web.api.bookmark.domain.Bookmark;
-import com.plant.web.api.bookmark.dto.BookmarkDTO;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "TBL_PLACE", uniqueConstraints = {@UniqueConstraint(name = "place_id_unique", columnNames = {"place_id"})})
@@ -16,7 +12,7 @@ import java.util.List;
 public class Place {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "place_id")
     private String placeId;
 
